@@ -18,17 +18,18 @@ public class Communication {
 	private static CommPort commPort = null;
 	
 	public static void connect ( String port ) throws Exception
-    {
-        CommPortIdentifier portIdentifier = CommPortIdentifier.getPortIdentifier(port);
+    {	
+		
+        CommPortIdentifier portIdentifier = CommPortIdentifier.getPortIdentifier(port);        
         if ( portIdentifier.isCurrentlyOwned() )
         {
-            Global.handleError("Connecting: port "+port+" is already in use");
+            Global.handleError("Connecting: port "+port+" is already in use");            
             return;
         }
         else
-        {
-            commPort = portIdentifier.open(Communication.class.getName(), TIMEOUT);
-            
+        {   
+        	//Was getting PortInUseException on Mac version, solution was to create a folder /var/lock
+            commPort = portIdentifier.open(Communication.class.getName(), TIMEOUT);            
             if ( commPort instanceof SerialPort )
             {
                 SerialPort serialPort = (SerialPort) commPort;
@@ -45,7 +46,7 @@ public class Communication {
         }     
     }
 
-	public static void closeCommPort(){
+	public static void closeCommPort(){		
 		commPort.close();
 	}
 	

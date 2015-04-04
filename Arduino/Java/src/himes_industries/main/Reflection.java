@@ -4,6 +4,9 @@ import himes_industries.util.Communication;
 import himes_industries.util.Global;
 import himes_industries.util.Message;
 
+//Mac version: will work if librxtxSerial.jnilib is copied to lib folder.
+//http://blog.iharder.net/2009/08/18/rxtx-java-6-and-librxtxserial-jnilib-on-intel-mac-os-x/
+
 public class Reflection {
 
 	public static void main(String[] args) {
@@ -36,6 +39,7 @@ public class Reflection {
 			Communication.sendInt(c);
 			Message.sent(c);
 		}
+		//If this program runs more than once without unplugging/replugging the USB, it freezes.
 		Communication.closeCommPort();
 		System.out.println("end");
 		
