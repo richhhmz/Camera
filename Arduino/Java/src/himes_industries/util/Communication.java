@@ -28,7 +28,7 @@ public class Communication {
         }
         else
         {   
-        	//Was getting PortInUseException on Mac version, solution was to create a folder /var/lock
+            //Was getting PortInUseException on Mac version, solution was to create a folder /var/lock
             commPort = portIdentifier.open(Communication.class.getName(), TIMEOUT);            
             if ( commPort instanceof SerialPort )
             {
