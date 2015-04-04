@@ -39,7 +39,7 @@ public class Reflection {
 			Communication.sendInt(c);
 			Message.sent(c);
 		}
-		//If this program runs more than once without unplugging/replugging the USB, it freezes.
+		//Mac: If this program runs more than once without unplugging/replugging the USB, it freezes.
 		Communication.closeCommPort();
 		System.out.println("end");
 		
