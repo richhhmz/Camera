@@ -20,8 +20,8 @@ public class SliderGUI extends JFrame {
 		String port = args[0];
 		Communication.connect(port); 
 		
-		Communication.sendInt(191);//Initialize pan motor
-		Communication.sendInt(63);//Initialize tilt motor
+		Communication.sendInt(191);//Initialize tilt motor
+		Communication.sendInt(63);//Initialize pan motor
 		
 		vSlider = new JSlider(JSlider.VERTICAL, 0, 180, 90);
 		vSlider.setMajorTickSpacing(10);
