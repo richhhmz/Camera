@@ -1,11 +1,14 @@
 #include <Servo.h> 
+#define CONVERSION 1.41732283464567
  
-Servo myservo;
+Servo servoPan;
+Servo servoTilt;
 int pos = 0;
 
 void setup() {
   Serial.begin(9600);
-  myservo.attach(9);  
+  servoTilt.attach(9);
+  servoPan.attach(10);
 }
 
 void loop() {
@@ -14,6 +17,11 @@ void loop() {
     
     //If the servo receives less than 3, it strains to rotate more than it can.
     //The actual range is 0 to 177 degrees.
-    myservo.write(pos+3);
+    //Also, received numbers 0 through 127, 128 through 255 
+    //are converted to 0 through 180.
+    if (pos > 127)
+      servoTilt.write(round((pos-1)*CONVERSION)-177);
+    else
+      servoPan.write(round(pos*CONVERSION)+3);
   }
 }

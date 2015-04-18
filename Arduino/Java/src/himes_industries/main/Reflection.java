@@ -25,14 +25,11 @@ public class Reflection {
 	
 	private static void run(String[] args) throws Exception{
 		SliderGUI frame = new SliderGUI(args);
-		frame.setSize(800,100);
+		frame.setSize(800,800);
 		frame.setTitle("Servo control");
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		//Communication.closeCommPort();
-
-		
+		//Communication.closeCommPort();		
 	}
-
 }
