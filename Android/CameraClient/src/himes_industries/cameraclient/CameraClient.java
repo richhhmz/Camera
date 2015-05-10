@@ -1,5 +1,6 @@
 package himes_industries.cameraclient;
 
+import java.util.GregorianCalendar;
 import javax.swing.JFrame;
 
 /**
@@ -8,11 +9,12 @@ import javax.swing.JFrame;
 public class CameraClient {
 
     public static void main(String[] args) {
+        GregorianCalendar gc = new GregorianCalendar();
+        
         CameraClientFrame frame = new CameraClientFrame();
         frame.setTitle("Camera Client");
-        frame.setSize(490, 300);
+        frame.setSize(648, 435);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setResizable(false);
         frame.setVisible(true);
     }
 }

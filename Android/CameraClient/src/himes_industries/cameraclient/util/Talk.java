@@ -7,8 +7,12 @@ package himes_industries.cameraclient.util;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
 import java.net.Socket;
+import java.util.GregorianCalendar;
 import java.util.Scanner;
 
 /**
@@ -16,6 +20,7 @@ import java.util.Scanner;
  */
 public class Talk {
     private static final int port = 59900;
+    private static String filename;
     
     public static String sendMessage(String input) {
         Process process = null;
@@ -53,6 +58,7 @@ public class Talk {
             bos.write(input.getBytes());
             bos.flush();
             
+            receive(socket);
             reader = new InputStreamReader(socket.getInputStream());
             msg = new BufferedReader(reader).readLine();
 
@@ -73,5 +79,26 @@ public class Talk {
             catch(Exception dontCare){}
         }
         return msg;
+    }
+    
+    private static void receive(Socket socket) throws Exception {
+        ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+        byte[] buffer = (byte[])ois.readObject();
+        
+        GregorianCalendar gc = new GregorianCalendar();
+        filename = "/image/"+gc.getTimeInMillis()+".jpg";
+                
+        if(System.getProperty("os.name").toLowerCase().startsWith("windows")){
+            FileOutputStream fos = new FileOutputStream("***WHEREVER /IMAGE IS***"+filename);
+            fos.write(buffer);
+        }
+        else{
+            FileOutputStream fos = new FileOutputStream("/Users/splabbity/NetBeansProjects/CameraClient/src"+filename);
+            fos.write(buffer);
+        }
+    }
+    
+    public static String getFilename() {
+        return filename;
     }
 }

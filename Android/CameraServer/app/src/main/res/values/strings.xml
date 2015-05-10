@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">CameraServer</string>
-    <string name="camera_server_button">Running</string>
+    <string name="camera_server_button">Take picture (start communication)</string>
     <string name="camera_server_content">Camera\nServer</string>
 
 </resources>

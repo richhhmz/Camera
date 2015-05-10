@@ -1,14 +1,19 @@
 package himes_industries.cameraserver.util;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Message;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -24,9 +29,13 @@ public class Connect extends AsyncTask<Void, Void, Void> {
     private ServerSocket server = null;
     private Socket socket = null;
     CameraServerActivity activity = null;
+    private Bitmap bmp;
+    private File file;
+    private ObjectOutputStream oos;
 
-    public Connect(CameraServerActivity activity){
+    public Connect(CameraServerActivity activity, File file){
         this.activity = activity;
+        this.file = file;
     }
 
     @Override
@@ -53,6 +62,18 @@ public class Connect extends AsyncTask<Void, Void, Void> {
                     reader = new InputStreamReader(socket.getInputStream());
                     msg = new BufferedReader(reader).readLine();
 
+                    if (file != null) {
+                        FileInputStream fis = new FileInputStream(file);
+                        byte[] buffer = new byte[fis.available()];
+                        System.out.println(Integer.toString(buffer.length));
+
+                        fis.read(buffer);
+
+                        oos = new ObjectOutputStream(socket.getOutputStream());
+                        oos.writeObject(buffer);
+                        oos.flush();
+                    }
+
                     response = CameraControl.processRequest(msg);
 
                     writer = new OutputStreamWriter(socket.getOutputStream());
@@ -65,8 +86,10 @@ public class Connect extends AsyncTask<Void, Void, Void> {
                 finally {
                     if(reader != null) reader.close();
                     if(writer != null) writer.close();
+                    if(oos != null) oos.close();
                 }
             }
+
         } catch (Exception e) {
             msg = String.format("Caught Exception \"%s\"\r\n", e.getMessage());
             Log.e(TAG, msg, e);
@@ -83,10 +106,16 @@ public class Connect extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void result){
         try {
-            server.close();
+            if (server != null)
+                server.close();
         } catch (IOException e) {
             Log.e(TAG, e.getMessage(), e);
         }
+
+        if (file == null)
+            Toast.makeText(activity, "NO PICTURE!", Toast.LENGTH_SHORT).show();
+        else
+            Toast.makeText(activity, "GOT SOMETHIN'!", Toast.LENGTH_SHORT).show();
     }
 
     private void sendResponseToFrame(String response){
