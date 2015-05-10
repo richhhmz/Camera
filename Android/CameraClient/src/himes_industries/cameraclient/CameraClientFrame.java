@@ -28,7 +28,7 @@ public class CameraClientFrame extends javax.swing.JFrame {
         /*
         The below line is to show that a received picture can be displayed on the label.
         The /image/#############.jpg is a result the output copied/pasted from Talk.getFilename() 
-        on line 129, replace the argument below in quotes with previously created file to prove 
+        on line 132, replace the argument below in quotes with previously created file to prove 
         the image can be displayed in the jLabel (it needs to be sized down somehow).
         */
         

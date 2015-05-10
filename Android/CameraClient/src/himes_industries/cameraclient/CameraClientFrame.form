@@ -108,9 +108,6 @@
     <Component class="javax.swing.JLabel" name="lblPicture">
       <Properties>
         <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="size" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[0, 0]"/>
-        </Property>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnShow">
