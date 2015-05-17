@@ -29,8 +29,8 @@ public class CameraClientFrame extends javax.swing.JFrame {
         the image can be displayed in the jLabel (it needs to be sized down somehow).
         */
         
-        ImageIcon imageIcon = new ImageIcon(getClass().getResource("/image/1431276898692.jpg"));
-        lblPicture.setIcon(imageIcon);
+//        ImageIcon imageIcon = new ImageIcon(getClass().getResource("/image/1431276898692.jpg"));
+//        lblPicture.setIcon(imageIcon);
     }
     
     /**

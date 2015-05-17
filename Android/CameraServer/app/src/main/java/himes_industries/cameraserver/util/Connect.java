@@ -63,7 +63,7 @@ public class Connect extends AsyncTask<Void, Void, Void> {
                     if(msg.equalsIgnoreCase(CameraControl.SNAP)){
                         activity.activateCamera();
                         synchronized (sync) {
-                            sync.wait();
+                            sync.wait(60000);
                         }
                         FileInputStream fis = new FileInputStream(activity.getPhoto());
                         byte[] buffer = new byte[fis.available()];

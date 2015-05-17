@@ -43,3 +43,4 @@ Temporary Items
 .apdisk
 /Android/CameraClient/nbproject/private/
 /Android/CameraClient/build/
+*.jpg
