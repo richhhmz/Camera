@@ -7,6 +7,8 @@ package himes_industries.cameraclient;
 
 import himes_industries.cameraclient.util.Talk;
 import static himes_industries.cameraclient.util.Talk.sync;
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
 import java.net.URL;
 import javax.swing.ImageIcon;
 
@@ -125,7 +127,30 @@ public class CameraClientFrame extends javax.swing.JFrame {
         System.out.println(Talk.getFilename());
         URL imageFile;
         imageFile = getClass().getResource(Talk.getFilename());
-        lblPicture.setIcon(new ImageIcon(imageFile));
+        
+        try{
+            BufferedInputStream in = (BufferedInputStream)getClass().getResourceAsStream(Talk.getFilename());
+            int streamLength = in.available();
+            byte[] bytes = new byte[streamLength];
+            in.read(bytes);
+            ImageIcon icon = new ImageIcon(bytes);
+            lblPicture.setIcon(icon);
+            boolean debug=true;
+        }
+        catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+//        try{
+//            File file = new File(Talk.getFilename());
+//            FileInputStream in = new FileInputStream(file);
+//            Path path = Paths.get(Talk.getFilename());
+//            byte[] bytes = Files.readAllBytes(path);
+//            boolean debug=true;
+//        }
+//        catch(Exception ex){
+//            System.out.println(ex.getMessage());
+//        }
+//        lblPicture.setIcon(new ImageIcon(imageFile));
 
     }//GEN-LAST:event_SendButtonActionPerformed
 
