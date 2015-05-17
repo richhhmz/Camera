@@ -6,10 +6,7 @@
 package himes_industries.cameraclient;
 
 import himes_industries.cameraclient.util.Talk;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.event.WindowEvent;
-import javax.swing.Icon;
+import java.net.URL;
 import javax.swing.ImageIcon;
 
 /**
@@ -32,7 +29,8 @@ public class CameraClientFrame extends javax.swing.JFrame {
         the image can be displayed in the jLabel (it needs to be sized down somehow).
         */
         
-        lblPicture.setIcon(new ImageIcon(getClass().getResource("/image/1431276898692.jpg")));
+        ImageIcon imageIcon = new ImageIcon(getClass().getResource("/image/1431276898692.jpg"));
+        lblPicture.setIcon(imageIcon);
     }
     
     /**
@@ -50,7 +48,6 @@ public class CameraClientFrame extends javax.swing.JFrame {
         RequestText = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         lblPicture = new javax.swing.JLabel();
-        btnShow = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -66,14 +63,6 @@ public class CameraClientFrame extends javax.swing.JFrame {
         jLabel2.setText("Response");
 
         lblPicture.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblPicture.setSize(new java.awt.Dimension(0, 0));
-
-        btnShow.setText("Show image");
-        btnShow.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnShowActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -82,7 +71,6 @@ public class CameraClientFrame extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblPicture, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -92,10 +80,11 @@ public class CameraClientFrame extends javax.swing.JFrame {
                             .addComponent(ResponseText, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
                             .addComponent(RequestText))
                         .addGap(49, 49, 49)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(SendButton)
-                            .addComponent(btnShow))))
-                .addContainerGap())
+                        .addComponent(SendButton)
+                        .addGap(67, 67, 67))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblPicture, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -105,11 +94,10 @@ public class CameraClientFrame extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(SendButton)
                     .addComponent(RequestText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(ResponseText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(btnShow))
+                    .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblPicture, javax.swing.GroupLayout.DEFAULT_SIZE, 352, Short.MAX_VALUE)
                 .addContainerGap())
@@ -131,14 +119,20 @@ public class CameraClientFrame extends javax.swing.JFrame {
         
         System.out.println(Talk.getFilename());
         
-        //Even though the file exists, the below line reports null pointer exception.
-        lblPicture.setIcon(new ImageIcon(getClass().getResource(Talk.getFilename())));     
+        URL imageFile;
+        int waited = 0;
+        for(int i=0;i<200;i++){
+            imageFile = getClass().getResource(Talk.getFilename());
+            if(imageFile == null){
+                try{Thread.sleep(20);} catch(Exception ex){}
+                waited += 20;
+                continue;
+            }
+            System.out.println("Waited " + waited);
+            lblPicture.setIcon(new ImageIcon(imageFile));
+            break;
+        }
     }//GEN-LAST:event_SendButtonActionPerformed
-
-    private void btnShowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowActionPerformed
-        //Didn't work this way either.
-        lblPicture.setIcon(new ImageIcon(getClass().getResource(Talk.getFilename())));
-    }//GEN-LAST:event_btnShowActionPerformed
 
     /**
      * @param args the command line arguments
@@ -179,7 +173,6 @@ public class CameraClientFrame extends javax.swing.JFrame {
     private javax.swing.JTextField RequestText;
     private javax.swing.JTextField ResponseText;
     private javax.swing.JButton SendButton;
-    private javax.swing.JButton btnShow;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel lblPicture;

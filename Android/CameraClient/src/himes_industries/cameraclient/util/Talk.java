@@ -19,6 +19,7 @@ import java.util.Scanner;
  * @author Rich
  */
 public class Talk {
+    public static final Object sync = new Object();
     private static final int port = 59900;
     private static String filename;
     
@@ -58,11 +59,14 @@ public class Talk {
             bos.write(input.getBytes());
             bos.flush();
             
-            receive(socket);
-            reader = new InputStreamReader(socket.getInputStream());
-            msg = new BufferedReader(reader).readLine();
-
-            
+            if(input.toLowerCase().startsWith("snap")){
+                receive(socket);
+                msg = "snapped";
+            }
+            else{
+                reader = new InputStreamReader(socket.getInputStream());
+                msg = new BufferedReader(reader).readLine();
+            }
         } 
         catch (Exception e) {
             e.printStackTrace();
@@ -82,20 +86,32 @@ public class Talk {
     }
     
     private static void receive(Socket socket) throws Exception {
-        ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+        ObjectInputStream ois;
+        while(true){
+            try{
+                ois = new ObjectInputStream(socket.getInputStream());
+                break;
+            }
+            catch(Exception ex){
+                Thread.sleep(100);
+            }
+        }
         byte[] buffer = (byte[])ois.readObject();
-        
+        FileOutputStream fos = null;
+
         GregorianCalendar gc = new GregorianCalendar();
         filename = "/image/"+gc.getTimeInMillis()+".jpg";
-                
+
         if(System.getProperty("os.name").toLowerCase().startsWith("windows")){
-            FileOutputStream fos = new FileOutputStream("***WHEREVER /IMAGE IS***"+filename);
+            fos = new FileOutputStream("C:/Users/Rich/Documents/GitHub/Camera/Android/CameraClient/src"+filename);
             fos.write(buffer);
         }
         else{
-            FileOutputStream fos = new FileOutputStream("/Users/splabbity/NetBeansProjects/CameraClient/src"+filename);
+            fos = new FileOutputStream("/Users/splabbity/NetBeansProjects/CameraClient/src"+filename);
             fos.write(buffer);
         }
+        fos.flush();
+        fos.close();
     }
     
     public static String getFilename() {

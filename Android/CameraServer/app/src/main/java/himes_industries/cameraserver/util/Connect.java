@@ -30,12 +30,11 @@ public class Connect extends AsyncTask<Void, Void, Void> {
     private Socket socket = null;
     CameraServerActivity activity = null;
     private Bitmap bmp;
-    private File file;
     private ObjectOutputStream oos;
+    public static final Object sync = new Object();
 
-    public Connect(CameraServerActivity activity, File file){
+    public Connect(CameraServerActivity activity){
         this.activity = activity;
-        this.file = file;
     }
 
     @Override
@@ -61,9 +60,12 @@ public class Connect extends AsyncTask<Void, Void, Void> {
                     socket = server.accept();
                     reader = new InputStreamReader(socket.getInputStream());
                     msg = new BufferedReader(reader).readLine();
-
-                    if (file != null) {
-                        FileInputStream fis = new FileInputStream(file);
+                    if(msg.equalsIgnoreCase(CameraControl.SNAP)){
+                        activity.activateCamera();
+                        synchronized (sync) {
+                            sync.wait();
+                        }
+                        FileInputStream fis = new FileInputStream(activity.getPhoto());
                         byte[] buffer = new byte[fis.available()];
                         System.out.println(Integer.toString(buffer.length));
 
@@ -73,15 +75,16 @@ public class Connect extends AsyncTask<Void, Void, Void> {
                         oos.writeObject(buffer);
                         oos.flush();
                     }
+                    else {
+                        response = CameraControl.processRequest(msg);
 
-                    response = CameraControl.processRequest(msg);
+                        writer = new OutputStreamWriter(socket.getOutputStream());
+                        writer.write(String.format("Response=\"%s\"\r\n", response));
+                        writer.flush();
+                        if (msg.equalsIgnoreCase(CameraControl.END)) end = true;
 
-                    writer = new OutputStreamWriter(socket.getOutputStream());
-                    writer.write(String.format("Response=\"%s\"\r\n", response));
-                    writer.flush();
-                    if (msg.equalsIgnoreCase(CameraControl.END)) end = true;
-
-                    sendResponseToFrame(response);
+                        sendResponseToFrame(response);
+                    }
                 }
                 finally {
                     if(reader != null) reader.close();
@@ -111,11 +114,6 @@ public class Connect extends AsyncTask<Void, Void, Void> {
         } catch (IOException e) {
             Log.e(TAG, e.getMessage(), e);
         }
-
-        if (file == null)
-            Toast.makeText(activity, "NO PICTURE!", Toast.LENGTH_SHORT).show();
-        else
-            Toast.makeText(activity, "GOT SOMETHIN'!", Toast.LENGTH_SHORT).show();
     }
 
     private void sendResponseToFrame(String response){

@@ -28,19 +28,7 @@ public class CameraServerActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_camera_server);
-        final View controlsView = findViewById(R.id.fullscreen_content_controls);
-        final View contentView = findViewById(R.id.fullscreen_content);
-
-        camera_server_button = (Button)findViewById(R.id.camera_server_button);
-        camera_server_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                activateCamera();
-            }
-        });
-
-        //new Connect(this, photo).execute();
+        new Connect(this).execute();
     }
 
     @Override
@@ -84,11 +72,17 @@ public class CameraServerActivity extends Activity {
 
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(cr, imageUri);
-                new Connect(this, photo).execute();
-                setButtonText("running");
+                synchronized (Connect.sync) {
+                    Connect.sync.notify();
+                }
             } catch (Exception e) {
                 Log.e(TAG, e.toString());
             }
         }
+
+    }
+
+    public File getPhoto() {
+        return photo;
     }
 }
