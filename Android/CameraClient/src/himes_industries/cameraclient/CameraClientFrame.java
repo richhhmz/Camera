@@ -6,6 +6,7 @@
 package himes_industries.cameraclient;
 
 import himes_industries.cameraclient.util.Talk;
+import static himes_industries.cameraclient.util.Talk.sync;
 import java.net.URL;
 import javax.swing.ImageIcon;
 
@@ -116,22 +117,16 @@ public class CameraClientFrame extends javax.swing.JFrame {
     private void SendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SendButtonActionPerformed
         ResponseText.setText("Waiting");
         ResponseText.setText(Talk.sendMessage(RequestText.getText()));        
+
+        synchronized(sync){
+            try{Talk.sync.wait(10000);}catch(Exception ex){}
+        }
         
         System.out.println(Talk.getFilename());
-        
         URL imageFile;
-        int waited = 0;
-        for(int i=0;i<200;i++){
-            imageFile = getClass().getResource(Talk.getFilename());
-            if(imageFile == null){
-                try{Thread.sleep(20);} catch(Exception ex){}
-                waited += 20;
-                continue;
-            }
-            System.out.println("Waited " + waited);
-            lblPicture.setIcon(new ImageIcon(imageFile));
-            break;
-        }
+        imageFile = getClass().getResource(Talk.getFilename());
+        lblPicture.setIcon(new ImageIcon(imageFile));
+
     }//GEN-LAST:event_SendButtonActionPerformed
 
     /**

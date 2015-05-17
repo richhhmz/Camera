@@ -82,6 +82,10 @@ public class Talk {
             }
             catch(Exception dontCare){}
         }
+            
+        synchronized(sync){
+            sync.notify();
+        }
         return msg;
     }
     
