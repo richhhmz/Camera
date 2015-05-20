@@ -108,21 +108,6 @@ public class Talk {
                 Thread.sleep(100);
             }
         }
-<<<<<<< Updated upstream
-        byte[] buffer = (byte[])ois.readObject();
-        FileOutputStream fos = null;
-
-        GregorianCalendar gc = new GregorianCalendar();
-        filename = "/image/"+gc.getTimeInMillis()+".jpg";
-
-        if(System.getProperty("os.name").toLowerCase().startsWith("windows")){
-            fos = new FileOutputStream("C:/Users/Rich/Documents/GitHub/Camera/Android/CameraClient/src"+filename);
-            fos.write(buffer);
-        }
-        else{
-            fos = new FileOutputStream("/Users/splabbity/NetBeansProjects/CameraClient/src"+filename);
-            fos.write(buffer);
-=======
         buffer = (byte[])ois.readObject();
     }
     
@@ -160,10 +145,7 @@ public class Talk {
         }
         catch(Exception ex){
             System.out.println(ex.getMessage());
->>>>>>> Stashed changes
         }
-        fos.flush();
-        fos.close();
     }
     
     public static byte[] getBuffer() {
