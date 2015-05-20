@@ -9,11 +9,9 @@ import javax.swing.JFrame;
 public class CameraClient {
 
     public static void main(String[] args) {
-        GregorianCalendar gc = new GregorianCalendar();
-        
         CameraClientFrame frame = new CameraClientFrame();
         frame.setTitle("Camera Client");
-        frame.setSize(648, 435);
+        frame.setSize(640,560);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }

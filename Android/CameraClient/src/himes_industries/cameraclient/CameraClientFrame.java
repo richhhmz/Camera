@@ -5,11 +5,23 @@
  */
 package himes_industries.cameraclient;
 
+<<<<<<< Updated upstream
 import himes_industries.cameraclient.util.Talk;
 import static himes_industries.cameraclient.util.Talk.sync;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.net.URL;
+=======
+import himes_industries.cameraclient.util.*;
+import static himes_industries.cameraclient.util.Talk.sync;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+>>>>>>> Stashed changes
 import javax.swing.ImageIcon;
 
 /**
@@ -24,6 +36,8 @@ public class CameraClientFrame extends javax.swing.JFrame {
     public CameraClientFrame() {
         initComponents();
         getRootPane().setDefaultButton(SendButton);
+        if (Talk.getBuffer() == null)
+            btnSave.setEnabled(false);
         
         /*
         The below line is to show that a received picture can be displayed on the label.
@@ -51,6 +65,11 @@ public class CameraClientFrame extends javax.swing.JFrame {
         RequestText = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         lblPicture = new javax.swing.JLabel();
+<<<<<<< Updated upstream
+=======
+        btnSave = new javax.swing.JButton();
+        btnOpen = new javax.swing.JButton();
+>>>>>>> Stashed changes
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -66,16 +85,39 @@ public class CameraClientFrame extends javax.swing.JFrame {
         jLabel2.setText("Response");
 
         lblPicture.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+<<<<<<< Updated upstream
+=======
+
+        btnSave.setText("Save Picture");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
+
+        btnOpen.setText("Open");
+        btnOpen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOpenActionPerformed(evt);
+            }
+        });
+>>>>>>> Stashed changes
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnSave)
+                    .addComponent(btnOpen))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+<<<<<<< Updated upstream
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2))
                         .addGap(18, 18, 18)
@@ -88,6 +130,20 @@ public class CameraClientFrame extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblPicture, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())))
+=======
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(RequestText, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(SendButton))
+                            .addComponent(ResponseText, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 212, Short.MAX_VALUE))
+                    .addComponent(lblPicture, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+>>>>>>> Stashed changes
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -98,11 +154,21 @@ public class CameraClientFrame extends javax.swing.JFrame {
                     .addComponent(SendButton)
                     .addComponent(RequestText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(12, 12, 12)
+<<<<<<< Updated upstream
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(ResponseText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
+=======
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ResponseText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnSave)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblPicture, javax.swing.GroupLayout.DEFAULT_SIZE, 352, Short.MAX_VALUE)
+                .addComponent(btnOpen)
+>>>>>>> Stashed changes
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblPicture, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -120,6 +186,7 @@ public class CameraClientFrame extends javax.swing.JFrame {
         ResponseText.setText("Waiting");
         ResponseText.setText(Talk.sendMessage(RequestText.getText()));        
 
+<<<<<<< Updated upstream
         synchronized(sync){
             try{Talk.sync.wait(10000);}catch(Exception ex){}
         }
@@ -153,6 +220,33 @@ public class CameraClientFrame extends javax.swing.JFrame {
 //        lblPicture.setIcon(new ImageIcon(imageFile));
 
     }//GEN-LAST:event_SendButtonActionPerformed
+=======
+//        synchronized(sync){
+//            try{Talk.sync.wait(5000);}catch(Exception ex){}
+//        }
+        
+        //Instead of reading from the file, display directly from the byte array.
+        byte[] bytes = Talk.getBuffer();
+        ImageIcon icon = new ImageIcon(bytes);
+        lblPicture.setIcon(ResizeImage.resize(icon));
+        btnSave.setEnabled(true);
+    }//GEN-LAST:event_SendButtonActionPerformed
+
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        try {
+            Talk.saveFile();
+        } catch (Exception ex) {}
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void btnOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenActionPerformed
+        try {
+            Talk.openFile();
+            ImageIcon icon = new ImageIcon(Talk.getBuffer());
+            lblPicture.setIcon(ResizeImage.resize(icon));
+        } catch (Exception ex) {}
+        btnSave.setEnabled(true);
+    }//GEN-LAST:event_btnOpenActionPerformed
+>>>>>>> Stashed changes
 
     /**
      * @param args the command line arguments
@@ -193,6 +287,11 @@ public class CameraClientFrame extends javax.swing.JFrame {
     private javax.swing.JTextField RequestText;
     private javax.swing.JTextField ResponseText;
     private javax.swing.JButton SendButton;
+<<<<<<< Updated upstream
+=======
+    private javax.swing.JButton btnOpen;
+    private javax.swing.JButton btnSave;
+>>>>>>> Stashed changes
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel lblPicture;

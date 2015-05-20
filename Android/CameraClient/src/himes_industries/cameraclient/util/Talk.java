@@ -5,15 +5,23 @@
  */
 package himes_industries.cameraclient.util;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 /**
  * @author Rich
@@ -21,7 +29,7 @@ import java.util.Scanner;
 public class Talk {
     public static final Object sync = new Object();
     private static final int port = 59900;
-    private static String filename;
+    private static byte[] buffer;
     
     public static String sendMessage(String input) {
         Process process = null;
@@ -100,6 +108,7 @@ public class Talk {
                 Thread.sleep(100);
             }
         }
+<<<<<<< Updated upstream
         byte[] buffer = (byte[])ois.readObject();
         FileOutputStream fos = null;
 
@@ -113,12 +122,51 @@ public class Talk {
         else{
             fos = new FileOutputStream("/Users/splabbity/NetBeansProjects/CameraClient/src"+filename);
             fos.write(buffer);
+=======
+        buffer = (byte[])ois.readObject();
+    }
+    
+    public static void saveFile() throws Exception {
+        JFileChooser fileChooser = new JFileChooser();
+        int choice = fileChooser.showSaveDialog(new himes_industries.cameraclient.CameraClientFrame());
+        if(choice == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+            
+            try {
+                FileOutputStream fos = new FileOutputStream(file);
+                fos.write(buffer);
+                fos.flush();
+                fos.close();
+            }
+
+            catch(Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+    }
+    
+    public static void openFile() throws Exception {
+        try{
+            JFileChooser fileChooser = new JFileChooser();
+            int choice = fileChooser.showOpenDialog(new himes_industries.cameraclient.CameraClientFrame());
+            if(choice == JFileChooser.APPROVE_OPTION) {
+                File file = fileChooser.getSelectedFile();
+                //BufferedInputStream in = (BufferedInputStream)himes_industries.cameraclient.CameraClientFrame.class.getResourceAsStream(file.toString());
+                FileInputStream fin = new FileInputStream(file);
+                buffer = new byte[fin.available()];
+                fin.read(buffer);
+                fin.close();
+            }
+        }
+        catch(Exception ex){
+            System.out.println(ex.getMessage());
+>>>>>>> Stashed changes
         }
         fos.flush();
         fos.close();
     }
     
-    public static String getFilename() {
-        return filename;
+    public static byte[] getBuffer() {
+        return buffer;
     }
 }
