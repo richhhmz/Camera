@@ -61,19 +61,24 @@ public class Connect extends AsyncTask<Void, Void, Void> {
                     reader = new InputStreamReader(socket.getInputStream());
                     msg = new BufferedReader(reader).readLine();
                     if(msg.equalsIgnoreCase(CameraControl.SNAP)){
-                        activity.activateCamera();
+                        //activity.activateCamera();
+                        activity.capture();
                         synchronized (sync) {
-                            sync.wait(60000);
+                            sync.wait();
                         }
-                        FileInputStream fis = new FileInputStream(activity.getPhoto());
-                        byte[] buffer = new byte[fis.available()];
-                        System.out.println(Integer.toString(buffer.length));
+                        //FileInputStream fis = new FileInputStream(activity.getPhoto());
+                        //byte[] buffer = new byte[fis.available()];
+                        //System.out.println(Integer.toString(buffer.length));
 
-                        fis.read(buffer);
+                        //fis.read(buffer);
 
                         oos = new ObjectOutputStream(socket.getOutputStream());
-                        oos.writeObject(buffer);
+                        //oos.writeObject(buffer);
+                        oos.writeObject(activity.getImage());
                         oos.flush();
+
+                        //Closing the socket so it'll re-open when app restarts.
+                        end = true;
                     }
                     else {
                         response = CameraControl.processRequest(msg);
