@@ -105,6 +105,9 @@
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="RequestText">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="snap"/>
+      </Properties>
       <AccessibilityProperties>
         <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="RequestText"/>
         <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value=""/>

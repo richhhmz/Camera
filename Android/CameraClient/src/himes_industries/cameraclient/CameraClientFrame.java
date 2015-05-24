@@ -71,6 +71,8 @@ public class CameraClientFrame extends javax.swing.JFrame {
             }
         });
 
+        RequestText.setText("snap");
+
         jLabel2.setText("Response");
 
         lblPicture.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);

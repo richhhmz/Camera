@@ -29,9 +29,9 @@ public class Connect extends AsyncTask<Void, Void, Void> {
     private ServerSocket server = null;
     private Socket socket = null;
     CameraServerActivity activity = null;
-    private Bitmap bmp;
-    private ObjectOutputStream oos;
-    public static final Object sync = new Object();
+    private ObjectOutputStream oosImage;
+    public static final Object syncSnap = new Object();
+    public static final Object syncDownload = new Object();
 
     public Connect(CameraServerActivity activity){
         this.activity = activity;
@@ -61,24 +61,18 @@ public class Connect extends AsyncTask<Void, Void, Void> {
                     reader = new InputStreamReader(socket.getInputStream());
                     msg = new BufferedReader(reader).readLine();
                     if(msg.equalsIgnoreCase(CameraControl.SNAP)){
-                        //activity.activateCamera();
-                        activity.capture();
-                        synchronized (sync) {
-                            sync.wait();
+
+                        synchronized (syncSnap) {
+                            activity.capture();
+                            syncSnap.wait();
                         }
-                        //FileInputStream fis = new FileInputStream(activity.getPhoto());
-                        //byte[] buffer = new byte[fis.available()];
-                        //System.out.println(Integer.toString(buffer.length));
 
-                        //fis.read(buffer);
-
-                        oos = new ObjectOutputStream(socket.getOutputStream());
-                        //oos.writeObject(buffer);
-                        oos.writeObject(activity.getImage());
-                        oos.flush();
-
-                        //Closing the socket so it'll re-open when app restarts.
-                        end = true;
+                        synchronized (syncDownload) {
+                            oosImage = new ObjectOutputStream(socket.getOutputStream());
+                            oosImage.writeObject(activity.getImage());
+                            oosImage.flush();
+                            syncDownload.notify();
+                        }
                     }
                     else {
                         response = CameraControl.processRequest(msg);
@@ -87,14 +81,12 @@ public class Connect extends AsyncTask<Void, Void, Void> {
                         writer.write(String.format("Response=\"%s\"\r\n", response));
                         writer.flush();
                         if (msg.equalsIgnoreCase(CameraControl.END)) end = true;
-
-                        sendResponseToFrame(response);
                     }
                 }
                 finally {
                     if(reader != null) reader.close();
                     if(writer != null) writer.close();
-                    if(oos != null) oos.close();
+                    if(oosImage != null) oosImage.close();
                 }
             }
 
@@ -119,13 +111,5 @@ public class Connect extends AsyncTask<Void, Void, Void> {
         } catch (IOException e) {
             Log.e(TAG, e.getMessage(), e);
         }
-    }
-
-    private void sendResponseToFrame(String response){
-        Bundle b = new Bundle();
-        Message info = Message.obtain();
-        b.putString("response", response);
-        info.setData(b);
-        activity.handler.sendMessage(info);
     }
 }

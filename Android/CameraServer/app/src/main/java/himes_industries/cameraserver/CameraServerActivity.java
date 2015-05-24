@@ -1,38 +1,22 @@
 package himes_industries.cameraserver;
 
 import android.app.Activity;
-import android.content.ContentResolver;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.hardware.Camera;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
-import android.os.Message;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
-import java.io.File;
 import java.io.IOException;
 
 import himes_industries.cameraserver.util.Connect;
 
 public class CameraServerActivity extends Activity implements SurfaceHolder.Callback {
-    private Button camera_server_button;
-    private Uri imageUri;
-    private Bitmap bitmap;
-    private File photo;
-    private final static String TAG = "CameraMode";
+    private final static String TAG = "CameraServerActivity";
     private Camera mCamera;
     private SurfaceView surfaceView;
     private SurfaceHolder surfaceHolder;
-    private Button capture_image;
     private byte[] image;
 
     @Override
@@ -40,30 +24,12 @@ public class CameraServerActivity extends Activity implements SurfaceHolder.Call
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera_server);
 
-//        camera_server_button = (Button)findViewById(R.id.camera_server_button);
-//        camera_server_button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                activateCamera();
-//            }
-//        });
-
-//        capture_image = (Button) findViewById(R.id.capture_image);
-//        capture_image.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                capture();
-//            }
-//        });
-
         surfaceView = (SurfaceView) findViewById(R.id.surfaceview);
         surfaceHolder = surfaceView.getHolder();
         surfaceHolder.addCallback(CameraServerActivity.this);
         surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         try {
             mCamera = Camera.open();
-
             mCamera.setPreviewDisplay(surfaceHolder);
             mCamera.startPreview();
         } catch (IOException e) {
@@ -77,77 +43,29 @@ public class CameraServerActivity extends Activity implements SurfaceHolder.Call
         super.onPostCreate(savedInstanceState);
     }
 
-    public Handler handler = new Handler()
-    {
-        public void handleMessage(Message message)
-        {
-            Bundle b = message.getData();
-            String text = (String)b.get("response");
-            //setButtonText(text);
-            super.handleMessage(message);
-        }
-    };
-
-//    public void setButtonText(String text){
-//        Button mButton=(Button)findViewById(R.id.camera_server_button);
-//        mButton.setText(text);
-//    }
-
-    public void activateCamera() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        photo = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), "picture.jpg");
-        imageUri = Uri.fromFile(photo);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-        startActivityForResult(intent, 1);
-    }
-
     public void capture() {
         mCamera.takePicture(null, null, null, new Camera.PictureCallback() {
 
             @Override
             public void onPictureTaken(byte[] data, Camera camera) {
-//                Toast.makeText(getApplicationContext(), "Picture Taken",
-//                        Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(CameraServerActivity.this, CameraServerActivity.class);
-                //intent.putExtra("image_arr", data);
-                //setResult(RESULT_OK, intent);
-                camera.stopPreview();
-                synchronized (Connect.sync) {
-                    image = data;
-                    Connect.sync.notify();
-                }
+                try {
+                    synchronized (Connect.syncSnap) {
+                        image = data;
+                        Connect.syncSnap.notify();
+                    }
 
-                if (camera != null) {
-                    camera.release();
-                    mCamera = null;
+                    synchronized (Connect.syncDownload) {
+                        Connect.syncDownload.wait();
+                    }
+
+                    mCamera.startPreview();
+
                 }
-                finish();
-                startActivity(intent);
+                catch(Exception e){
+                    Log.e(TAG, e.toString());
+                }
             }
         });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        //if (resultCode == Activity.RESULT_OK) {
-            //getContentResolver().notifyChange(imageUri, null);
-
-            //ContentResolver cr = getContentResolver();
-
-            try {
-                //bitmap = MediaStore.Images.Media.getBitmap(cr, imageUri);
-                image = data.getExtras().getByteArray("image_arr");
-                synchronized (Connect.sync) {
-                    Connect.sync.notify();
-                }
-            } catch (Exception e) {
-                Log.e(TAG, e.toString());
-            }
-        //}
-
     }
 
     @Override
@@ -195,10 +113,6 @@ public class CameraServerActivity extends Activity implements SurfaceHolder.Call
     protected void onDestroy() {
         super.onDestroy();
         finish();
-    }
-
-    public File getPhoto() {
-        return photo;
     }
 
     public byte[] getImage() {
