@@ -55,7 +55,7 @@ public class CameraServerActivity extends Activity implements SurfaceHolder.Call
                     }
 
                     synchronized (Connect.syncDownload) {
-                        Connect.syncDownload.wait();
+                        Connect.syncDownload.wait(15000);
                     }
 
                     mCamera.startPreview();

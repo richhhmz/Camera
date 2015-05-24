@@ -64,7 +64,7 @@ public class Connect extends AsyncTask<Void, Void, Void> {
 
                         synchronized (syncSnap) {
                             activity.capture();
-                            syncSnap.wait();
+                            syncSnap.wait(15000);
                         }
 
                         synchronized (syncDownload) {
