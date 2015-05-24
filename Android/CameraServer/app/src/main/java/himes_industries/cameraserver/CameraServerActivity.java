@@ -10,11 +10,13 @@ import android.view.SurfaceView;
 
 import java.io.IOException;
 
+import himes_industries.cameraserver.util.CameraControl;
 import himes_industries.cameraserver.util.Connect;
 
 public class CameraServerActivity extends Activity implements SurfaceHolder.Callback {
     private final static String TAG = "CameraServerActivity";
     private Camera mCamera;
+    private CameraControl mCameraControl;
     private SurfaceView surfaceView;
     private SurfaceHolder surfaceHolder;
     private byte[] image;
@@ -28,12 +30,15 @@ public class CameraServerActivity extends Activity implements SurfaceHolder.Call
         surfaceHolder = surfaceView.getHolder();
         surfaceHolder.addCallback(CameraServerActivity.this);
         surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+
+        mCameraControl = new CameraControl(this);
+
         try {
             mCamera = Camera.open();
             mCamera.setPreviewDisplay(surfaceHolder);
             mCamera.startPreview();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ex) {
+            Log.e(TAG, ex.toString(), ex);
         }
         new Connect(this).execute();
     }
@@ -61,8 +66,8 @@ public class CameraServerActivity extends Activity implements SurfaceHolder.Call
                     mCamera.startPreview();
 
                 }
-                catch(Exception e){
-                    Log.e(TAG, e.toString());
+                catch(Exception ex){
+                    Log.e(TAG, ex.toString(), ex);
                 }
             }
         });
@@ -104,7 +109,6 @@ public class CameraServerActivity extends Activity implements SurfaceHolder.Call
     protected void onRestart() {
         super.onRestart();
         Intent intent = new Intent(this, CameraServerActivity.class);
-
         finish();
         startActivity(intent);
     }
@@ -117,5 +121,13 @@ public class CameraServerActivity extends Activity implements SurfaceHolder.Call
 
     public byte[] getImage() {
         return image;
+    }
+
+    public CameraControl getCameraControl(){
+        return mCameraControl;
+    }
+
+    public Camera getCamera() {
+        return mCamera;
     }
 }

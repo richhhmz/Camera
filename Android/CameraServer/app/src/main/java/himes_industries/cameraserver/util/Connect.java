@@ -24,14 +24,14 @@ import himes_industries.cameraserver.CameraServerActivity;
  * Created by splabbity on 2/28/15.
  */
 public class Connect extends AsyncTask<Void, Void, Void> {
+    public static final Object syncSnap = new Object();
+    public static final Object syncDownload = new Object();
+
     private final static String TAG = "Connect";
     private final int PORT = 59900;
     private ServerSocket server = null;
     private Socket socket = null;
-    CameraServerActivity activity = null;
-    private ObjectOutputStream oosImage;
-    public static final Object syncSnap = new Object();
-    public static final Object syncDownload = new Object();
+    private CameraServerActivity activity = null;
 
     public Connect(CameraServerActivity activity){
         this.activity = activity;
@@ -41,64 +41,42 @@ public class Connect extends AsyncTask<Void, Void, Void> {
     protected void onPreExecute() {
         try {
             server = new ServerSocket(PORT);//Enable in AndroidManifest.xml!
-        } catch (IOException e) {
-            Log.e(TAG, e.getMessage(), e);
+        } catch (IOException ex) {
+            Log.e(TAG, ex.getMessage(), ex);
         }
     }
 
     @Override
     protected Void doInBackground(Void... args) {
-        String msg = "";
-        String response = "";
-        boolean end = false;
         InputStreamReader reader = null;
-        OutputStreamWriter writer = null;
-
         try {
-            while(!end) {
+            while(true) {
                 try {
                     socket = server.accept();
                     reader = new InputStreamReader(socket.getInputStream());
-                    msg = new BufferedReader(reader).readLine();
-                    if(msg.equalsIgnoreCase(CameraControl.SNAP)){
+                    String request = new BufferedReader(reader).readLine().trim().toLowerCase();
 
-                        synchronized (syncSnap) {
-                            activity.capture();
-                            syncSnap.wait(15000);
-                        }
-
-                        synchronized (syncDownload) {
-                            oosImage = new ObjectOutputStream(socket.getOutputStream());
-                            oosImage.writeObject(activity.getImage());
-                            oosImage.flush();
-                            syncDownload.notify();
-                        }
+                    if (request.equals(CameraControl.END)){
+                        break;
                     }
-                    else {
-                        response = CameraControl.processRequest(msg);
-
-                        writer = new OutputStreamWriter(socket.getOutputStream());
-                        writer.write(String.format("Response=\"%s\"\r\n", response));
-                        writer.flush();
-                        if (msg.equalsIgnoreCase(CameraControl.END)) end = true;
+                    else{
+                        activity.getCameraControl().processRequest(socket, request);
                     }
                 }
                 finally {
                     if(reader != null) reader.close();
-                    if(writer != null) writer.close();
-                    if(oosImage != null) oosImage.close();
                 }
             }
-
-        } catch (Exception e) {
-            msg = String.format("Caught Exception \"%s\"\r\n", e.getMessage());
-            Log.e(TAG, msg, e);
+        } catch (Exception ex) {
+            Log.e(TAG, ex.getMessage(), ex);
         }
         finally{
             try{
                 socket.close();
             }
-            catch(Exception dontCare){}
+            catch(Exception ex){
+                Log.e(TAG, ex.getMessage(), ex);
+            }
         }
         return null;
     }
@@ -108,8 +86,8 @@ public class Connect extends AsyncTask<Void, Void, Void> {
         try {
             if (server != null)
                 server.close();
-        } catch (IOException e) {
-            Log.e(TAG, e.getMessage(), e);
+        } catch (IOException ex) {
+            Log.e(TAG, ex.getMessage(), ex);
         }
     }
 }
