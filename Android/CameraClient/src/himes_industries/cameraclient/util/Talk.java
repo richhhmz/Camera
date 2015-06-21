@@ -5,31 +5,30 @@
  */
 package himes_industries.cameraclient.util;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.net.Socket;
-import java.util.GregorianCalendar;
 import java.util.Scanner;
-import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
+import himes_industries.cameraclient.CameraClientFrame;
 
 /**
  * @author Rich
  */
 public class Talk {
+    
+    public static final String SNAP =  "snap";
+    
     public static final Object sync = new Object();
     private static final int port = 59900;
     private static byte[] buffer;
+    public static boolean running = false;
+    public static CameraClientFrame frame;
     
     public static String sendMessage(String input) {
         Process process = null;
@@ -67,7 +66,7 @@ public class Talk {
             bos.write(input.getBytes());
             bos.flush();
             
-            if(input.toLowerCase().startsWith("snap")){
+            if(input.toLowerCase().startsWith(SNAP)){
                 receive(socket);
                 msg = "snapped";
             }
@@ -102,6 +101,7 @@ public class Talk {
         while(true){
             try{
                 ois = new ObjectInputStream(socket.getInputStream());
+                if(ois == null) continue;
                 break;
             }
             catch(Exception ex){
@@ -111,6 +111,16 @@ public class Talk {
         buffer = (byte[])ois.readObject();
     }
     
+        public static void start() {
+            running = true;
+            Thread t =  new Thread(new Continuous());
+            t.start();
+        }
+        
+        public static void stop(){
+            running = false;
+        }
+
     public static void saveFile() throws Exception {
         JFileChooser fileChooser = new JFileChooser();
         int choice = fileChooser.showSaveDialog(new himes_industries.cameraclient.CameraClientFrame());
