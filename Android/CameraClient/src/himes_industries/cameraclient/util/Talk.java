@@ -16,6 +16,8 @@ import java.net.Socket;
 import java.util.Scanner;
 import javax.swing.JFileChooser;
 import himes_industries.cameraclient.CameraClientFrame;
+import java.util.Base64;
+import java.util.GregorianCalendar;
 
 /**
  * @author Rich
@@ -29,6 +31,7 @@ public class Talk {
     private static byte[] buffer;
     public static boolean running = false;
     public static CameraClientFrame frame;
+    private static String filename;
     
     public static String sendMessage(String input) {
         Process process = null;
@@ -109,6 +112,42 @@ public class Talk {
             }
         }
         buffer = (byte[])ois.readObject();
+        
+        //began experimenting after this point
+        
+        Base64.Encoder enc = Base64.getEncoder();
+        byte[] buffer64 = enc.encode(buffer);//only byte[] allowed.
+        
+        //Base64 test.
+        String hw = "Hello World!";
+        byte[] hwB = hw.getBytes();
+        
+        System.out.println("Good Old Fashioned Hello World: "+hw);
+        System.out.println("Hello World in byte[] form: "+hwB);
+        
+        byte[] encHwB = enc.encode(hwB);
+        String encHw = new String(encHwB);
+        
+        System.out.println("Byte[] form in Base64: "+encHwB);
+        System.out.println("Base64 byte[] to String: "+encHw); //Displays "SGVsbG8gV29ybGQh" like it should.
+        
+        System.out.println("Base64 byte[] decoded and changed back to String: "+new String(Base64.getDecoder().decode(encHwB)));
+        
+        //System.out.println(enc.encode("Hello World!".getBytes()));
+        
+        GregorianCalendar gc = new GregorianCalendar();
+        //filename = "/image/"+gc.getTimeInMillis()+".jpg";
+        filename = "IMG"+gc.getTimeInMillis()+".jpg";
+                
+        if(System.getProperty("os.name").toLowerCase().startsWith("windows")){
+            FileOutputStream fos = new FileOutputStream("***WHEREVER YOUR /PUBLIC IS***"+filename);
+            fos.write(buffer);//use buffer64 for Base64 version
+        }
+        else{
+            //FileOutputStream fos = new FileOutputStream("/Users/splabbity/NetBeansProjects/CameraClient/src"+filename);
+            FileOutputStream fos = new FileOutputStream("/Users/splabbity/json/public/"+filename);//
+            fos.write(buffer);
+        }
     }
     
         public static void start() {
