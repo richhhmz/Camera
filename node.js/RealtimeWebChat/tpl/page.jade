@@ -5,8 +5,10 @@ html
 		script(src='/chat.js')
 		script(src='/socket.io/socket.io.js')
 	body
-		#content(style='width: 500px; height: 300px; margin: 0 0 20px 0; border: solid 1px #999; overflow-y: scroll;')
+		#content(style='width: 500px; height: 100px; margin: 0 0 20px 0; border: solid 1px #999; overflow-y: scroll;')
 		.controls
 			input#field(style='width:350px;')
 			input#send(type='button', value='send')
+			br
+			img#placeholder(style='width: 800px; height: 450px;', src="")
 			

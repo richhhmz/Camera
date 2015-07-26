@@ -7,6 +7,7 @@ window.onload = function() {
     var content = document.getElementById("content");
  
     socket.on('message', function (data) {
+//		alert("message");
         if(data.message) {
             messages.push(data.message);
             var html = '';
@@ -18,6 +19,17 @@ window.onload = function() {
             console.log("There is a problem:", data);
         }
     });
+	
+    socket.on('image', function (data) {
+//		alert("image");
+        if(data.message) {
+//			alert("image message);
+			document.getElementById("placeholder").src = "data:image/jpeg;base64," + data.message;
+        } else {
+            console.log("There is a problem:", data);
+        }
+    });
+	
  
     sendButton.onclick = function() {
         var text = field.value;
