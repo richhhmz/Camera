@@ -132,7 +132,8 @@ public class Talk {
             filename = "image_b.b64";
                 
         if(System.getProperty("os.name").toLowerCase().startsWith("windows")){
-            FileOutputStream fos = new FileOutputStream("***THE LOCATION OF YOUR /RealTimeWebChat/"+filename);
+            //overwrite previous file with same name.
+            FileOutputStream fos = new FileOutputStream("***THE LOCATION OF YOUR /RealTimeWebChat/"+filename, false);
             fos.write(Base64Enc.encode(ResizeImage.scale(buffer, 900, 450)));//use buffer64 for Base64 version
         }
         else{
