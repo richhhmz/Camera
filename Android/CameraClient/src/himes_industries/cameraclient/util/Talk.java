@@ -16,6 +16,7 @@ import java.net.Socket;
 import java.util.Scanner;
 import javax.swing.JFileChooser;
 import himes_industries.cameraclient.CameraClientFrame;
+import javax.swing.ImageIcon;
 
 /**
  * @author Rich
@@ -29,6 +30,7 @@ public class Talk {
     private static byte[] buffer;
     public static boolean running = false;
     public static CameraClientFrame frame;
+    private static boolean switcher = true;
     
     public static String sendMessage(String input) {
         Process process = null;
@@ -105,10 +107,11 @@ public class Talk {
                 break;
             }
             catch(Exception ex){
-                Thread.sleep(100);
+                //Thread.sleep(100);
             }
         }
         buffer = (byte[])ois.readObject();
+        switcher = !switcher;
     }
     
         public static void start() {
@@ -120,6 +123,26 @@ public class Talk {
         public static void stop(){
             running = false;
         }
+    
+    public static void autoSave() throws Exception {
+        String filename;
+        if (switcher)
+            filename = "image_a.b64";
+        else
+            filename = "image_b.b64";
+                
+        if(System.getProperty("os.name").toLowerCase().startsWith("windows")){
+            FileOutputStream fos = new FileOutputStream("***THE LOCATION OF YOUR /RealTimeWebChat/"+filename);
+            fos.write(Base64Enc.encode(ResizeImage.scale(buffer, 900, 450)));//use buffer64 for Base64 version
+        }
+        else{
+            //FileOutputStream fos = new FileOutputStream("/Users/splabbity/NetBeansProjects/CameraClient/src"+filename);
+            FileOutputStream fos = new FileOutputStream("/Users/splabbity/NetBeansProjects/node.js/RealtimeWebChat/"+filename, false);//
+            fos.write(Base64Enc.encode(ResizeImage.scale(buffer, 900, 450)));
+            
+        }
+    }
+    
 
     public static void saveFile() throws Exception {
         JFileChooser fileChooser = new JFileChooser();
@@ -129,7 +152,9 @@ public class Talk {
             
             try {
                 FileOutputStream fos = new FileOutputStream(file);
-                fos.write(buffer);
+                fos.write(buffer); //save jpg file
+                //fos.write(Base64Enc.encode(ResizeImage.scale(buffer, 900, 450))); //save "b64" file
+                
                 fos.flush();
                 fos.close();
             }
@@ -160,5 +185,9 @@ public class Talk {
     
     public static byte[] getBuffer() {
         return buffer;
+    }
+    
+    public static byte[] getDecodedBuffer() {
+        return Base64Enc.decode(buffer);
     }
 }

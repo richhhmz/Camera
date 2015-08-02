@@ -20,6 +20,14 @@ public class Continuous implements Runnable {
             byte[] bytes = Talk.getBuffer();
             ImageIcon icon = new ImageIcon(bytes);
             Talk.frame.getLblPicture().setIcon(ResizeImage.resize(icon));
+            
+            try {
+                Talk.autoSave();
+            }
+            catch (Exception e) {
+                System.out.println(e);
+            }
+            
         }
     }
 }

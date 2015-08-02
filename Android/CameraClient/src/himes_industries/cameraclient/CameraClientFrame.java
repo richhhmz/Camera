@@ -182,7 +182,8 @@ public class CameraClientFrame extends javax.swing.JFrame {
     private void btnOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenActionPerformed
         try {
             Talk.openFile();
-            ImageIcon icon = new ImageIcon(Talk.getBuffer());
+            ImageIcon icon = new ImageIcon(Talk.getBuffer()); //open jpg file
+            //ImageIcon icon = new ImageIcon(Talk.getDecodedBuffer()); //open "b64" file
             lblPicture.setIcon(ResizeImage.resize(icon));
         } catch (Exception ex) {}
         btnSave.setEnabled(true);
