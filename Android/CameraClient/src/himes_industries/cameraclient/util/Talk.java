@@ -133,7 +133,7 @@ public class Talk {
                 
         if(System.getProperty("os.name").toLowerCase().startsWith("windows")){
             //overwrite previous file with same name.
-            FileOutputStream fos = new FileOutputStream("***THE LOCATION OF YOUR /RealTimeWebChat/"+filename, false);
+            FileOutputStream fos = new FileOutputStream("C:/Users/Rich/Documents/GitHub/Camera/node.js/RealTimeWebChat/"+filename, false);
             fos.write(Base64Enc.encode(ResizeImage.scale(buffer, 900, 450)));//use buffer64 for Base64 version
         }
         else{
