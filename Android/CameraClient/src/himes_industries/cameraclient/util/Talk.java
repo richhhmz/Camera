@@ -30,7 +30,7 @@ public class Talk {
     private static byte[] buffer;
     public static boolean running = false;
     public static CameraClientFrame frame;
-    private static boolean switcher = true;
+    //private static boolean switcher = true;
     
     public static String sendMessage(String input) {
         Process process = null;
@@ -111,38 +111,38 @@ public class Talk {
             }
         }
         buffer = (byte[])ois.readObject();
-        switcher = !switcher;
+        //switcher = !switcher;
     }
     
-        public static void start() {
-            running = true;
-            Thread t =  new Thread(new Continuous());
-            t.start();
-        }
-        
-        public static void stop(){
-            running = false;
-        }
-    
-    public static void autoSave() throws Exception {
-        String filename;
-        if (switcher)
-            filename = "image_a.b64";
-        else
-            filename = "image_b.b64";
-                
-        if(System.getProperty("os.name").toLowerCase().startsWith("windows")){
-            //overwrite previous file with same name.
-            FileOutputStream fos = new FileOutputStream("C:/Users/Rich/Documents/GitHub/Camera/node.js/RealTimeWebChat/"+filename, false);
-            fos.write(Base64Enc.encode(ResizeImage.scale(buffer, 900, 450)));//use buffer64 for Base64 version
-        }
-        else{
-            //FileOutputStream fos = new FileOutputStream("/Users/splabbity/NetBeansProjects/CameraClient/src"+filename);
-            FileOutputStream fos = new FileOutputStream("/Users/splabbity/NetBeansProjects/node.js/RealtimeWebChat/"+filename, false);//
-            fos.write(Base64Enc.encode(ResizeImage.scale(buffer, 900, 450)));
-            
-        }
+    public static void start() {
+        running = true;
+        Thread t =  new Thread(new Continuous());
+        t.start();
     }
+
+    public static void stop(){
+        running = false;
+    }
+    
+//    public static void autoSave() throws Exception {
+//        String filename;
+//        if (switcher)
+//            filename = "image_a.b64";
+//        else
+//            filename = "image_b.b64";
+//                
+//        if(System.getProperty("os.name").toLowerCase().startsWith("windows")){
+//            //overwrite previous file with same name.
+//            FileOutputStream fos = new FileOutputStream("C:/Users/Rich/Documents/GitHub/Camera/node.js/RealTimeWebChat/"+filename, false);
+//            fos.write(Base64Enc.encode(ResizeImage.scale(buffer, 900, 450)));//use buffer64 for Base64 version
+//        }
+//        else{
+//            //FileOutputStream fos = new FileOutputStream("/Users/splabbity/NetBeansProjects/CameraClient/src"+filename);
+//            FileOutputStream fos = new FileOutputStream("/Users/splabbity/NetBeansProjects/node.js/RealtimeWebChat/"+filename, false);//
+//            fos.write(Base64Enc.encode(ResizeImage.scale(buffer, 900, 450)));
+//            
+//        }
+//    }
     
 
     public static void saveFile() throws Exception {
