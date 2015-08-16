@@ -44,3 +44,4 @@ Temporary Items
 /Android/CameraClient/nbproject/private/
 /Android/CameraClient/build/
 *.jpg
+*.class
