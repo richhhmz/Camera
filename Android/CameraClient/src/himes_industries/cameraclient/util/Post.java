@@ -22,29 +22,11 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.InputStreamEntity;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.entity.mime.*;
-import org.apache.http.entity.mime.content.ByteArrayBody;
-import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 
 public class Post {
     private static byte[] buffer;
-    
-//    public static void main(String[] args) {
-//        try{
-//            System.out.println("Start");
-//            Talk.openFile();
-//            buffer = Talk.getBuffer();
-//            Post post = new Post();
-//            post.run(args);
-//        }
-//        catch(Exception ex){
-//            System.out.printf("Caught exception: %s\n", ex.toString());
-//            ex.printStackTrace(new PrintStream(System.out));
-//    }
-//        System.out.println("End");
-//    }
     
     public Post(byte[] buffer) {
         this.buffer = buffer;
