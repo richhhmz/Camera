@@ -45,3 +45,4 @@ Temporary Items
 /Android/CameraClient/build/
 *.jpg
 *.class
+/Android/CameraClient/dist/
