@@ -46,3 +46,4 @@ Temporary Items
 *.jpg
 /Android/WebcamController/nbproject/private/
 /WebcamController/nbproject/private/
+/WebcamController/build/

@@ -1,4 +1,4 @@
-package himes_industries.util;
+package himes_industries.arduino;
 
 import gnu.io.CommPort;
 import gnu.io.CommPortIdentifier;
@@ -9,7 +9,7 @@ import gnu.io.SerialPortEventListener;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import himes_industries.util.Global;
+import himes_industries.arduino.Global;
 
 public class Communication {
 

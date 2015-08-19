@@ -1,4 +1,4 @@
-package himes_industries.util;
+package himes_industries.arduino;
 
 public class Message {
 

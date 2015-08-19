@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package himes_industries.cameraclient.util;
+package himes_industries.android;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -15,7 +15,7 @@ import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.util.Scanner;
 import javax.swing.JFileChooser;
-import himes_industries.cameraclient.CameraClientFrame;
+import himes_industries.webcam.WebcamControllerJFrame;
 
 /**
  * @author Rich
@@ -28,13 +28,14 @@ public class Talk {
     private static final int port = 59900;
     private static byte[] buffer;
     public static boolean running = false;
-    public static CameraClientFrame frame;
+    public static WebcamControllerJFrame frame;
+    //private static boolean switcher = true;
     
     public static String sendMessage(String input) {
-        Process process = null;
+        Process process;
+        Socket socket;
         BufferedOutputStream bos = null;
         InputStreamReader reader = null;
-        Socket socket = null;
         String msg = "failed";
         try {
             System.out.println("Begin");
@@ -105,31 +106,34 @@ public class Talk {
                 break;
             }
             catch(Exception ex){
-                Thread.sleep(100);
+                //Thread.sleep(100);
             }
         }
         buffer = (byte[])ois.readObject();
+        //switcher = !switcher;
     }
     
-        public static void start() {
-            running = true;
-            Thread t =  new Thread(new Continuous());
-            t.start();
-        }
-        
-        public static void stop(){
-            running = false;
-        }
+    public static void start() {
+        running = true;
+        Thread t =  new Thread(new Continuous());
+        t.start();
+    }
+
+    public static void stop(){
+        running = false;
+    }
 
     public static void saveFile() throws Exception {
         JFileChooser fileChooser = new JFileChooser();
-        int choice = fileChooser.showSaveDialog(new himes_industries.cameraclient.CameraClientFrame());
+        int choice = fileChooser.showSaveDialog(new himes_industries.webcam.WebcamControllerJFrame());
         if(choice == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
             
             try {
                 FileOutputStream fos = new FileOutputStream(file);
-                fos.write(buffer);
+                fos.write(buffer); //save jpg file
+                //fos.write(Base64Enc.encode(ResizeImage.scale(buffer, 900, 450))); //save "b64" file
+                
                 fos.flush();
                 fos.close();
             }
@@ -143,7 +147,7 @@ public class Talk {
     public static void openFile() throws Exception {
         try{
             JFileChooser fileChooser = new JFileChooser();
-            int choice = fileChooser.showOpenDialog(new himes_industries.cameraclient.CameraClientFrame());
+            int choice = fileChooser.showOpenDialog(new himes_industries.webcam.WebcamControllerJFrame());
             if(choice == JFileChooser.APPROVE_OPTION) {
                 File file = fileChooser.getSelectedFile();
                 //BufferedInputStream in = (BufferedInputStream)himes_industries.cameraclient.CameraClientFrame.class.getResourceAsStream(file.toString());
@@ -160,5 +164,9 @@ public class Talk {
     
     public static byte[] getBuffer() {
         return buffer;
+    }
+    
+    public static byte[] getDecodedBuffer() {
+        return Base64Enc.decode(buffer);
     }
 }
