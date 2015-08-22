@@ -116,7 +116,7 @@ public class AndroidComm {
     
     public static void start() {
         running = true;
-        Thread t =  new Thread(new ContinuousPics());
+        Thread t =  new Thread(new ContinuousPics(frame));
         t.start();
     }
 

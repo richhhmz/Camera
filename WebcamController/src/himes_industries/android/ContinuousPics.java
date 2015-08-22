@@ -8,6 +8,7 @@ package himes_industries.android;
 import himes_industries.util.ResizeImage;
 import himes_industries.util.Base64Enc;
 import himes_industries.util.Post;
+import himes_industries.webcam.WebcamControllerJFrame;
 import javax.swing.ImageIcon;
 
 /**
@@ -15,7 +16,11 @@ import javax.swing.ImageIcon;
  * @author Rich
  */
 public class ContinuousPics implements Runnable {
+    private WebcamControllerJFrame frame;
     
+    public ContinuousPics(WebcamControllerJFrame frame){
+        this.frame =  frame;
+    }
     
     public void run(){
         
@@ -26,7 +31,7 @@ public class ContinuousPics implements Runnable {
             
             try {
                 //Talk.autoSave();
-                new Post(Base64Enc.encode(ResizeImage.scale(AndroidComm.getBuffer(), 900, 450))).run();
+                new Post(frame.getWebServerUrl(), Base64Enc.encode(ResizeImage.scale(AndroidComm.getBuffer(), 900, 450))).run();
             }
             catch (Exception e) {
                 System.out.println(e + ":(");

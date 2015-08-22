@@ -16,28 +16,25 @@ import org.apache.http.message.BasicNameValuePair;
 
 
 public class Post {
-    private static byte[] buffer;
+    private String url;
+    private byte[] buffer;
     
-    public Post(byte[] buffer) {
+    public Post(String url, byte[] buffer) {
+        this.url = url;
         this.buffer = buffer;
     }
     
     public void run() throws Exception{
-        // test pic send
-
         // See
         // http://stackoverflow.com/questions/3324717/sending-http-post-request-in-java
         // http://hc.apache.org/httpcomponents-core-4.4.x/httpcore/examples/org/apache/http/examples/ElementalHttpPost.java
         // https://codeforgeek.com/2014/09/handle-get-post-request-express-4/
         // Requires Apache httpcore, httpclient, and commons-io libraries (see lib folder).
-        
-        
+                
         HttpClient httpclient = HttpClients.createDefault();
-        HttpPost httppost = new HttpPost("http://localhost:3700");
+        HttpPost httppost = new HttpPost(url);
         
         List<NameValuePair> params = new ArrayList<NameValuePair>();
-        
-        //params.add(new BasicNameValuePair("image", "This message will be replaced by a base 64 image."));
         
         params.add(new BasicNameValuePair("image", new String(buffer)));
         
