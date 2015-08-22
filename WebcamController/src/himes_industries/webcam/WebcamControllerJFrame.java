@@ -228,6 +228,18 @@ public class WebcamControllerJFrame extends javax.swing.JFrame {
         return WebServerPortTextField.getText();
     }
     
+    public String getPan(){
+        return PanTextField.getText();
+    }
+    
+    public String getTilt(){
+        return TiltTextField.getText();
+    }
+    
+    public String getZoom(){
+        return ZoomTextField.getText();
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField ArduinoPortTextField;
     private javax.swing.JLabel LblPicture;

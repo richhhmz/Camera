@@ -31,7 +31,7 @@ public class ContinuousPics implements Runnable {
             
             try {
                 //Talk.autoSave();
-                new Post(frame.getWebServerUrl(), Base64Enc.encode(ResizeImage.scale(AndroidComm.getBuffer(), 900, 450))).run();
+                new Post(frame, Base64Enc.encode(ResizeImage.scale(AndroidComm.getBuffer(), 900, 450))).run();
             }
             catch (Exception e) {
                 System.out.println(e + ":(");

@@ -1,5 +1,6 @@
 package himes_industries.util;
 
+import himes_industries.webcam.WebcamControllerJFrame;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,11 +17,13 @@ import org.apache.http.message.BasicNameValuePair;
 
 
 public class Post {
-    private String url;
+    
+    private WebcamControllerJFrame frame;
+    
     private byte[] buffer;
     
-    public Post(String url, byte[] buffer) {
-        this.url = url;
+    public Post(WebcamControllerJFrame frame, byte[] buffer) {
+        this.frame = frame;
         this.buffer = buffer;
     }
     
@@ -32,11 +35,14 @@ public class Post {
         // Requires Apache httpcore, httpclient, and commons-io libraries (see lib folder).
                 
         HttpClient httpclient = HttpClients.createDefault();
-        HttpPost httppost = new HttpPost(url);
+        HttpPost httppost = new HttpPost(frame.getWebServerUrl());
         
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         
         params.add(new BasicNameValuePair("image", new String(buffer)));
+        params.add(new BasicNameValuePair("pan", frame.getPan()));
+        params.add(new BasicNameValuePair("tilt", frame.getTilt()));
+        params.add(new BasicNameValuePair("zoom", frame.getZoom()));
         
         //Execute and get the response.
         httppost.setEntity(new UrlEncodedFormEntity(params));

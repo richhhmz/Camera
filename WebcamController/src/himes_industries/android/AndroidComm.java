@@ -53,11 +53,6 @@ public class AndroidComm {
                 );
             }
             
-            Scanner sc = new Scanner(process.getErrorStream());
-            while(sc.hasNext()){
-                System.err.print(sc.next());
-            }
-            
             //Starting socket
             socket = new Socket("127.0.0.1", port);
 
@@ -103,15 +98,19 @@ public class AndroidComm {
         while(true){
             try{
                 ois = new ObjectInputStream(socket.getInputStream());
-                if(ois == null) continue;
+                if(ois == null){
+                    Thread.sleep(100);
+                    continue;
+                }
                 break;
             }
             catch(Exception ex){
-                //Thread.sleep(100);
+                // Note that ex.getMessage() returns null.
+                ex.printStackTrace();
+                return;
             }
         }
         buffer = (byte[])ois.readObject();
-        //switcher = !switcher;
     }
     
     public static void start() {
