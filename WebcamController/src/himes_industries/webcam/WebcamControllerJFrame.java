@@ -15,6 +15,7 @@ import himes_industries.arduino.ArduinoComm;
 public class WebcamControllerJFrame extends javax.swing.JFrame {
 
     private final double convertToFourBits = 1.41732283464567;
+    private boolean connected = false;
 
     /**
     * Creates new form WebcamControllerJFrame
@@ -152,10 +153,14 @@ public class WebcamControllerJFrame extends javax.swing.JFrame {
 
     private void SendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SendButtonActionPerformed
         int pan = (int)Math.round(Integer.parseInt(PanTextField.getText())/convertToFourBits);
-        int tilt = (int)Math.round(Integer.parseInt(TiltTextField.getText())/convertToFourBits) << 4;
+        int tilt = (int)Math.round(Integer.parseInt(TiltTextField.getText())/convertToFourBits)+128;
+        System.out.println(String.format("pan=%d, tilt=%d", pan, tilt));
 
         try{
-            ArduinoComm.connect(PortTextField.getText());
+            if(!connected){
+                ArduinoComm.connect(PortTextField.getText());
+                connected=true;
+            }
             ArduinoComm.sendInt(pan);
             ArduinoComm.sendInt(tilt);
 //****************TEST
