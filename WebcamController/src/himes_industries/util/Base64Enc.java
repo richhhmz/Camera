@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package himes_industries.android;
+package himes_industries.util;
 
 import java.util.Base64;
 

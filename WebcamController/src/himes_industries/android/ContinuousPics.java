@@ -5,25 +5,28 @@
  */
 package himes_industries.android;
 
+import himes_industries.util.ResizeImage;
+import himes_industries.util.Base64Enc;
+import himes_industries.util.Post;
 import javax.swing.ImageIcon;
 
 /**
  *
  * @author Rich
  */
-public class Continuous implements Runnable {
+public class ContinuousPics implements Runnable {
     
     
     public void run(){
         
-        while(Talk.running){
-            Talk.sendMessage(Talk.SNAP);
-            ImageIcon icon = new ImageIcon(Talk.getBuffer());
-            Talk.frame.getLblPicture().setIcon(ResizeImage.resize(icon));
+        while(AndroidComm.running){
+            AndroidComm.sendMessage(AndroidComm.SNAP);
+            ImageIcon icon = new ImageIcon(AndroidComm.getBuffer());
+            AndroidComm.frame.getLblPicture().setIcon(ResizeImage.resize(icon));
             
             try {
                 //Talk.autoSave();
-                new Post(Base64Enc.encode(ResizeImage.scale(Talk.getBuffer(), 900, 450))).run();
+                new Post(Base64Enc.encode(ResizeImage.scale(AndroidComm.getBuffer(), 900, 450))).run();
             }
             catch (Exception e) {
                 System.out.println(e + ":(");

@@ -5,6 +5,7 @@
  */
 package himes_industries.android;
 
+import himes_industries.util.Base64Enc;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
@@ -20,7 +21,7 @@ import himes_industries.webcam.WebcamControllerJFrame;
 /**
  * @author Rich
  */
-public class Talk {
+public class AndroidComm {
     
     public static final String SNAP =  "snap";
     
@@ -115,7 +116,7 @@ public class Talk {
     
     public static void start() {
         running = true;
-        Thread t =  new Thread(new Continuous());
+        Thread t =  new Thread(new ContinuousPics());
         t.start();
     }
 

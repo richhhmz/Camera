@@ -1,4 +1,4 @@
-package himes_industries.android;
+package himes_industries.util;
 
 import java.io.InputStream;
 import java.util.ArrayList;

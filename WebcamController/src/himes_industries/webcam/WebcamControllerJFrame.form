@@ -24,19 +24,48 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="StartStopButton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="SendButton" min="-2" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="LblPicture" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
-                      <Component id="LblPicture" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Component id="PanLabel" min="-2" pref="26" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="PanTextField" min="-2" pref="30" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="PortLabel" min="-2" pref="71" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+                              <Component id="PanLabel1" min="-2" pref="23" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="TiltTextField" min="-2" pref="30" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+                              <Component id="ZoomLabel" min="-2" pref="32" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="ZoomTextField" min="-2" pref="24" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="PortTextField" max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+                              <Component id="SendButton" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+                              <Component id="StartStopButton" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
                   </Group>
               </Group>
-              <EmptySpace pref="423" max="32767" attributes="0"/>
+              <EmptySpace min="178" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -46,11 +75,22 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="StartStopButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="SendButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="PortTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="PortLabel" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="PanTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="PanLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="PanLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="TiltTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="ZoomLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="ZoomTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="SendButton" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="LblPicture" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="296" max="32767" attributes="0"/>
+              <EmptySpace pref="249" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -72,6 +112,40 @@
     <Component class="javax.swing.JButton" name="SendButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Send"/>
+        <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[65, 29]"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SendButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JTextField" name="PanTextField">
+    </Component>
+    <Component class="javax.swing.JLabel" name="PanLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Pan"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="TiltTextField">
+    </Component>
+    <Component class="javax.swing.JLabel" name="PanLabel1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Tilt"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="ZoomLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Zoom"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="ZoomTextField">
+    </Component>
+    <Component class="javax.swing.JTextField" name="PortTextField">
+    </Component>
+    <Component class="javax.swing.JLabel" name="PortLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Arduino Port"/>
       </Properties>
     </Component>
   </SubComponents>

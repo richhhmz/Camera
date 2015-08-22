@@ -5,7 +5,8 @@
  */
 package himes_industries.webcam;
 
-import himes_industries.android.Talk;
+import himes_industries.android.AndroidComm;
+import himes_industries.arduino.ArduinoComm;
 
 /**
  *
@@ -13,13 +14,18 @@ import himes_industries.android.Talk;
  */
 public class WebcamControllerJFrame extends javax.swing.JFrame {
 
+    private final double convertToFourBits = 1.41732283464567;
+
     /**
-     * Creates new form WebcamControllerJFrame
-     */
+    * Creates new form WebcamControllerJFrame
+    */
     public WebcamControllerJFrame() {
         initComponents();
         getRootPane().setDefaultButton(SendButton);
-        Talk.frame = this;
+        PanTextField.setText("90");
+        TiltTextField.setText("90");
+        ZoomTextField.setText("0");
+        AndroidComm.frame = this;
     }
 
     /**
@@ -34,6 +40,14 @@ public class WebcamControllerJFrame extends javax.swing.JFrame {
         LblPicture = new javax.swing.JLabel();
         StartStopButton = new javax.swing.JButton();
         SendButton = new javax.swing.JButton();
+        PanTextField = new javax.swing.JTextField();
+        PanLabel = new javax.swing.JLabel();
+        TiltTextField = new javax.swing.JTextField();
+        PanLabel1 = new javax.swing.JLabel();
+        ZoomLabel = new javax.swing.JLabel();
+        ZoomTextField = new javax.swing.JTextField();
+        PortTextField = new javax.swing.JTextField();
+        PortLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -47,22 +61,58 @@ public class WebcamControllerJFrame extends javax.swing.JFrame {
         });
 
         SendButton.setText("Send");
+        SendButton.setMaximumSize(new java.awt.Dimension(65, 29));
+        SendButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SendButtonActionPerformed(evt);
+            }
+        });
+
+        PanLabel.setText("Pan");
+
+        PanLabel1.setText("Tilt");
+
+        ZoomLabel.setText("Zoom");
+
+        PortLabel.setText("Arduino Port");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(LblPicture)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(StartStopButton)
-                        .addGap(18, 18, 18)
-                        .addComponent(SendButton))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
-                        .addComponent(LblPicture)))
-                .addContainerGap(423, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(PanLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(PanTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(PortLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(27, 27, 27)
+                                .addComponent(PanLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(TiltTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(34, 34, 34)
+                                .addComponent(ZoomLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(ZoomTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(PortTextField)))
+                        .addGap(39, 39, 39)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(38, 38, 38)
+                                .addComponent(SendButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(40, 40, 40)
+                                .addComponent(StartStopButton)))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -70,10 +120,20 @@ public class WebcamControllerJFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(StartStopButton)
-                    .addComponent(SendButton))
+                    .addComponent(PortTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(PortLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(PanTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(PanLabel)
+                    .addComponent(PanLabel1)
+                    .addComponent(TiltTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ZoomLabel)
+                    .addComponent(ZoomTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(SendButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(LblPicture)
-                .addContainerGap(296, Short.MAX_VALUE))
+                .addContainerGap(249, Short.MAX_VALUE))
         );
 
         pack();
@@ -81,14 +141,33 @@ public class WebcamControllerJFrame extends javax.swing.JFrame {
 
     private void StartStopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartStopButtonActionPerformed
         if(StartStopButton.getText().equals("Start")){
-            Talk.start();
+            AndroidComm.start();
             StartStopButton.setText("Stop");
         }
         else{
-            Talk.stop();
+            AndroidComm.stop();
             StartStopButton.setText("Start");
         }
     }//GEN-LAST:event_StartStopButtonActionPerformed
+
+    private void SendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SendButtonActionPerformed
+        int pan = (int)Math.round(Integer.parseInt(PanTextField.getText())/convertToFourBits);
+        int tilt = (int)Math.round(Integer.parseInt(TiltTextField.getText())/convertToFourBits) << 4;
+
+        try{
+            ArduinoComm.connect(PortTextField.getText());
+            ArduinoComm.sendInt(pan);
+            ArduinoComm.sendInt(tilt);
+//****************TEST
+//        AndroidComm.sendMessage(String.format("zoom %s", ZoomTextField));
+        }
+        catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+
+//****************TEST
+//        AndroidComm.sendMessage(String.format("zoom %s", ZoomTextField));
+    }//GEN-LAST:event_SendButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -131,7 +210,15 @@ public class WebcamControllerJFrame extends javax.swing.JFrame {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel LblPicture;
+    private javax.swing.JLabel PanLabel;
+    private javax.swing.JLabel PanLabel1;
+    private javax.swing.JTextField PanTextField;
+    private javax.swing.JLabel PortLabel;
+    private javax.swing.JTextField PortTextField;
     private javax.swing.JButton SendButton;
     private javax.swing.JButton StartStopButton;
+    private javax.swing.JTextField TiltTextField;
+    private javax.swing.JLabel ZoomLabel;
+    private javax.swing.JTextField ZoomTextField;
     // End of variables declaration//GEN-END:variables
 }

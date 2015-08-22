@@ -1,6 +1,6 @@
 package himes_industries.arduino;
 
-public class Message {
+public class ArduinoTrace {
 
 	public static void sent(int c){
 		System.out.printf("Sent message: %s\n", Character.toString((char)c));

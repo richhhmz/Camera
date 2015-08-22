@@ -4,7 +4,7 @@ import java.io.PrintStream;
 
 import console.Dialog;
 
-public class Global {
+public class ArduinoGlobal {
 
 //	public static int BAUD_RATE = 300;		// ~780  actual
 //	public static int BAUD_RATE = 1200;		// ~1200 actual
