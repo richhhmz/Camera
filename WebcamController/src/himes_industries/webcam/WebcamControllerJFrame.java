@@ -15,7 +15,7 @@ import himes_industries.arduino.ArduinoComm;
 public class WebcamControllerJFrame extends javax.swing.JFrame {
 
     private final double convertToFourBits = 1.41732283464567;
-    private boolean connected = false;
+    private boolean connectedToArduino = false;
 
     /**
     * Creates new form WebcamControllerJFrame
@@ -61,7 +61,7 @@ public class WebcamControllerJFrame extends javax.swing.JFrame {
             }
         });
 
-        SendButton.setText("Send");
+        SendButton.setText("Set");
         SendButton.setMaximumSize(new java.awt.Dimension(65, 29));
         SendButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -157,21 +157,20 @@ public class WebcamControllerJFrame extends javax.swing.JFrame {
         System.out.println(String.format("pan=%d, tilt=%d", pan, tilt));
 
         try{
-            if(!connected){
-                ArduinoComm.connect(PortTextField.getText());
-                connected=true;
+            String arduinoPort = PortTextField.getText().trim();            
+            if(!arduinoPort.equals("") && !connectedToArduino){
+                ArduinoComm.connect(arduinoPort);
+                connectedToArduino=true;
             }
-            ArduinoComm.sendInt(pan);
-            ArduinoComm.sendInt(tilt);
-//****************TEST
-//        AndroidComm.sendMessage(String.format("zoom %s", ZoomTextField));
+            if(connectedToArduino){
+                ArduinoComm.sendInt(pan);
+                ArduinoComm.sendInt(tilt);
+            }
+            AndroidComm.sendMessage(String.format("zoom %s", ZoomTextField.getText()));
         }
         catch(Exception ex){
             System.out.println(ex.getMessage());
         }
-
-//****************TEST
-//        AndroidComm.sendMessage(String.format("zoom %s", ZoomTextField));
     }//GEN-LAST:event_SendButtonActionPerformed
 
     /**

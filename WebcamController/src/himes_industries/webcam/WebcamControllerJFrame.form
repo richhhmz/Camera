@@ -111,7 +111,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="SendButton">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Send"/>
+        <Property name="text" type="java.lang.String" value="Set"/>
         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[65, 29]"/>
         </Property>
