@@ -14,6 +14,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
 
 
 public class Post {
@@ -38,11 +39,11 @@ public class Post {
         HttpPost httppost = new HttpPost(frame.getWebServerUrl());
         
         List<NameValuePair> params = new ArrayList<NameValuePair>();
-        
         params.add(new BasicNameValuePair("image", new String(buffer)));
         params.add(new BasicNameValuePair("pan", frame.getPan()));
         params.add(new BasicNameValuePair("tilt", frame.getTilt()));
         params.add(new BasicNameValuePair("zoom", frame.getZoom()));
+        params.add(new BasicNameValuePair("timestamp", new java.util.Date().toString()));
         
         //Execute and get the response.
         httppost.setEntity(new UrlEncodedFormEntity(params));
@@ -54,7 +55,14 @@ public class Post {
             InputStream instream = responseData.getContent();
             try {
                 byte[] bytes = IOUtils.toByteArray(instream);
-                System.out.println(String.format("response=%s\n", new String(bytes)));
+                System.out.println(String.format("response=%s", new String(bytes)));
+
+                JSONObject json = new JSONObject(new String(bytes));
+                String status = json.getJSONObject("response").getString("status");
+                System.out.println(String.format("status=%s", status));
+                JSONObject settings = json.getJSONObject("response").getJSONObject("settings");
+                System.out.println(String.format("settings: pan=%s, tilt=%s, zoom=%s",
+                        settings.getString("pan"), settings.getString("tilt"), settings.getString("zoom")));
             } finally {
                 instream.close();
             }

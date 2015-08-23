@@ -4,11 +4,14 @@ window.onload = function() {
     var socket = io.connect(Document.URL);
     var field = document.getElementById("field");
 	
-    socket.on('image', function (data) {
+    socket.on('message', function (data) {
 //		alert("image");
         if(data.message) {
             //alert("image message);
-	    document.getElementById("placeholder").src = "data:image/jpeg;base64," + data.message;
+	        var image = document.getElementById("image");
+	        var timestamp = document.getElementById("timestamp");
+		    image.src = "data:image/jpeg;base64," + data.message.image;
+		    timestamp.innerHTML = data.message.timestamp;
         } else {
             console.log("There is a problem:", data);
         }

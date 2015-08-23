@@ -29,10 +29,26 @@ app.get("/", function(req, res){
 app.post('/', function(req, res){
 //    console.log("Received post");
     imageData = req.body.image;
-    io.sockets.emit("image",{ message: imageData });
     
-    res.writeHead(200, {'Content-Type': 'text/plain'});
-    res.end("OK");
+//    console.log("pan= " + req.body.pan +
+//    		    ", tilt= " + req.body.tilt +
+//    		    ", zoom=", + req.body.zoom);
+//    console.log("timestamp="+req.body.timestamp);
+
+//    io.sockets.emit("image",{ message: imageData });
+    io.sockets.emit("message",{ message: {image: imageData, timestamp: req.body.timestamp }});
+    
+    res.writeHead(200, {'Content-Type': 'application/json'});
+    res.end(JSON.stringify(
+    	{response: {
+	    	status: "OK", 
+	    	settings: 
+	    		{
+	    			pan: req.body.pan, 
+	    			tilt: req.body.tilt, 
+	    			zoom: req.body.zoom
+	    		}
+    	}}));
 });
 
 console.log("Listening on port " + port);

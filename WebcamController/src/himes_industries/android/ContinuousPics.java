@@ -30,12 +30,10 @@ public class ContinuousPics implements Runnable {
             AndroidComm.frame.getLblPicture().setIcon(ResizeImage.resize(icon));
             
             try {
-                //Talk.autoSave();
                 new Post(frame, Base64Enc.encode(ResizeImage.scale(AndroidComm.getBuffer(), 900, 450))).run();
             }
             catch (Exception e) {
                 System.out.println(e + ":(");
-                
             }
             
         }
