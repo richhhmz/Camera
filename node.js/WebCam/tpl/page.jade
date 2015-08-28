@@ -5,10 +5,16 @@ html
 		script(src='/chat.js')
 		script(src='/socket.io/socket.io.js')
 	body
-		#content(style='width: 850px; height: 500px; margin: 0 0 20px 0; border: solid 1px #999;')
+		#content(style='width: 850px; height: 480px; margin: 0 0 20px 0; border: solid 1px #999;')
 			img#image(style='width: 850px; height: 450px;')
-			#timestamp
-			<br/>
+			span#timestamp
+			| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pan:&nbsp; 
+			span#pan 
+			| &nbsp;Tilt:&nbsp; 
+			span#tilt 
+			| &nbsp;Zoom:&nbsp; 
+			span#zoom
+		#control
 			| &nbsp;Control:&nbsp;
 			input#key(style='width:120px;')
 			

@@ -22,10 +22,7 @@ public class WebcamControllerJFrame extends javax.swing.JFrame {
     */
     public WebcamControllerJFrame() {
         initComponents();
-        getRootPane().setDefaultButton(SendButton);
-        PanTextField.setText("90");
-        TiltTextField.setText("90");
-        ZoomTextField.setText("0");
+        getRootPane().setDefaultButton(SetButton);
         AndroidComm.frame = this;
     }
 
@@ -40,7 +37,7 @@ public class WebcamControllerJFrame extends javax.swing.JFrame {
 
         LblPicture = new javax.swing.JLabel();
         StartStopButton = new javax.swing.JButton();
-        SendButton = new javax.swing.JButton();
+        SetButton = new javax.swing.JButton();
         PanTextField = new javax.swing.JTextField();
         PanLabel = new javax.swing.JLabel();
         TiltTextField = new javax.swing.JTextField();
@@ -51,6 +48,18 @@ public class WebcamControllerJFrame extends javax.swing.JFrame {
         PortLabel = new javax.swing.JLabel();
         ServerPortLabel = new javax.swing.JLabel();
         WebServerPortTextField = new javax.swing.JTextField();
+        PanLabel2 = new javax.swing.JLabel();
+        PanMinTextField = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        PanMaxTextField = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        TiltMaxTextField = new javax.swing.JTextField();
+        PanLabel3 = new javax.swing.JLabel();
+        TiltMinTextField = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        ZoomMaxTextField = new javax.swing.JTextField();
+        PanLabel4 = new javax.swing.JLabel();
+        ZoomMinTextField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -63,25 +72,65 @@ public class WebcamControllerJFrame extends javax.swing.JFrame {
             }
         });
 
-        SendButton.setText("Set");
-        SendButton.setMaximumSize(new java.awt.Dimension(65, 29));
-        SendButton.addActionListener(new java.awt.event.ActionListener() {
+        SetButton.setText("Set");
+        SetButton.setEnabled(false);
+        SetButton.setMaximumSize(new java.awt.Dimension(65, 29));
+        SetButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SendButtonActionPerformed(evt);
+                SetButtonActionPerformed(evt);
             }
         });
 
+        PanTextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        PanTextField.setText("90");
+
         PanLabel.setText("Pan");
+
+        TiltTextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        TiltTextField.setText("90");
 
         PanLabel1.setText("Tilt");
 
         ZoomLabel.setText("Zoom");
+
+        ZoomTextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        ZoomTextField.setText("0");
 
         PortLabel.setText("Arduino Port");
 
         ServerPortLabel.setText("Web Server");
 
         WebServerPortTextField.setText("http://localhost:3700");
+
+        PanLabel2.setText("Pan Min");
+
+        PanMinTextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        PanMinTextField.setText("0");
+
+        jLabel1.setText("Max");
+
+        PanMaxTextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        PanMaxTextField.setText("180");
+
+        jLabel2.setText("Max");
+
+        TiltMaxTextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        TiltMaxTextField.setText("180");
+
+        PanLabel3.setText("Tilt Min");
+
+        TiltMinTextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        TiltMinTextField.setText("0");
+
+        jLabel3.setText("Max");
+
+        ZoomMaxTextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        ZoomMaxTextField.setText("15");
+
+        PanLabel4.setText("Zoom Min");
+
+        ZoomMinTextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        ZoomMinTextField.setText("0");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -91,36 +140,65 @@ public class WebcamControllerJFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                         .addComponent(PanLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(PanTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(ServerPortLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
-                                    .addComponent(PortLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(PanLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(TiltTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(34, 34, 34)
-                                        .addComponent(ZoomLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(ZoomTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(43, 43, 43)
-                                        .addComponent(SendButton, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(ArduinoPortTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(WebServerPortTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(ServerPortLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
+                                    .addComponent(PortLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(PanLabel2)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(PanMinTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(17, 17, 17)
-                                .addComponent(LblPicture))))
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(PanMaxTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ArduinoPortTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(WebServerPortTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(PanLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(TiltTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(34, 34, 34)
+                                .addComponent(ZoomLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(ZoomTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(43, 43, 43)
+                                .addComponent(SetButton, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(20, 20, 20)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(TiltMaxTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(PanLabel3)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(TiltMinTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(31, 31, 31)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(PanLabel4)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(ZoomMinTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel3)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(ZoomMaxTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(164, 164, 164)
-                        .addComponent(StartStopButton)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(184, 184, 184)
+                        .addComponent(StartStopButton))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(LblPicture)))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -141,12 +219,28 @@ public class WebcamControllerJFrame extends javax.swing.JFrame {
                     .addComponent(TiltTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ZoomLabel)
                     .addComponent(ZoomTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(SendButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(SetButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(PanMinTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(PanLabel2)
+                    .addComponent(TiltMinTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(PanLabel3)
+                    .addComponent(ZoomMinTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(PanLabel4))
+                .addGap(3, 3, 3)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(PanMaxTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(TiltMaxTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
+                    .addComponent(ZoomMaxTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(StartStopButton)
                 .addGap(18, 18, 18)
                 .addComponent(LblPicture)
-                .addContainerGap(137, Short.MAX_VALUE))
+                .addContainerGap(58, Short.MAX_VALUE))
         );
 
         pack();
@@ -163,27 +257,9 @@ public class WebcamControllerJFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_StartStopButtonActionPerformed
 
-    private void SendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SendButtonActionPerformed
-        int pan = (int)Math.round(Integer.parseInt(PanTextField.getText())/convertToFourBits);
-        int tilt = (int)Math.round(Integer.parseInt(TiltTextField.getText())/convertToFourBits)+128;
-        System.out.println(String.format("pan=%d, tilt=%d", pan, tilt));
-
-        try{
-            String arduinoPort = ArduinoPortTextField.getText().trim();            
-            if(!arduinoPort.equals("") && !connectedToArduino){
-                ArduinoComm.connect(arduinoPort);
-                connectedToArduino=true;
-            }
-            if(connectedToArduino){
-                ArduinoComm.sendInt(pan);
-                ArduinoComm.sendInt(tilt);
-            }
-            AndroidComm.sendMessage(String.format("zoom %s", ZoomTextField.getText()));
-        }
-        catch(Exception ex){
-            System.out.println(ex.getMessage());
-        }
-    }//GEN-LAST:event_SendButtonActionPerformed
+    private void SetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SetButtonActionPerformed
+        setPanTiltZoom();
+    }//GEN-LAST:event_SetButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -232,12 +308,70 @@ public class WebcamControllerJFrame extends javax.swing.JFrame {
         return PanTextField.getText();
     }
     
+    public void setPan(String pan){
+        PanTextField.setText(pan);
+    }
+    
     public String getTilt(){
         return TiltTextField.getText();
     }
     
+    public void setTilt(String tilt){
+        TiltTextField.setText(tilt);
+    }
+    
     public String getZoom(){
         return ZoomTextField.getText();
+    }
+    
+    public void setZoom(String zoom){
+        ZoomTextField.setText(zoom);
+    }
+    
+    public String getPanMin(){
+        return PanMinTextField.getText();
+    }
+    
+    public String getPanMax(){
+        return PanMaxTextField.getText();
+    }
+    
+    public String getTiltMin(){
+        return TiltMinTextField.getText();
+    }
+    
+    public String getTiltMax(){
+        return TiltMaxTextField.getText();
+    }
+    
+    public String getZoomMin(){
+        return ZoomMinTextField.getText();
+    }
+    
+    public String getZoomMax(){
+        return ZoomMaxTextField.getText();
+    }
+    
+    public void setPanTiltZoom(){
+        int pan = (int)Math.round(Integer.parseInt(PanTextField.getText())/convertToFourBits);
+        int tilt = (int)Math.round(Integer.parseInt(TiltTextField.getText())/convertToFourBits)+128;
+//        System.out.println(String.format("pan=%d, tilt=%d", pan, tilt));
+
+        try{
+            String arduinoPort = ArduinoPortTextField.getText().trim();            
+            if(!arduinoPort.equals("") && !connectedToArduino){
+                ArduinoComm.connect(arduinoPort);
+                connectedToArduino=true;
+            }
+            if(connectedToArduino){
+                ArduinoComm.sendInt(pan);
+                ArduinoComm.sendInt(tilt);
+            }
+            AndroidComm.sendMessage(String.format("zoom %s", ZoomTextField.getText()));
+        }
+        catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -245,14 +379,26 @@ public class WebcamControllerJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel LblPicture;
     private javax.swing.JLabel PanLabel;
     private javax.swing.JLabel PanLabel1;
+    private javax.swing.JLabel PanLabel2;
+    private javax.swing.JLabel PanLabel3;
+    private javax.swing.JLabel PanLabel4;
+    private javax.swing.JTextField PanMaxTextField;
+    private javax.swing.JTextField PanMinTextField;
     private javax.swing.JTextField PanTextField;
     private javax.swing.JLabel PortLabel;
-    private javax.swing.JButton SendButton;
     private javax.swing.JLabel ServerPortLabel;
+    private javax.swing.JButton SetButton;
     private javax.swing.JButton StartStopButton;
+    private javax.swing.JTextField TiltMaxTextField;
+    private javax.swing.JTextField TiltMinTextField;
     private javax.swing.JTextField TiltTextField;
     private javax.swing.JTextField WebServerPortTextField;
     private javax.swing.JLabel ZoomLabel;
+    private javax.swing.JTextField ZoomMaxTextField;
+    private javax.swing.JTextField ZoomMinTextField;
     private javax.swing.JTextField ZoomTextField;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     // End of variables declaration//GEN-END:variables
 }
