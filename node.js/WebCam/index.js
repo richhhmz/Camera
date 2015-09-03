@@ -1,5 +1,6 @@
 var express = require("express");
 var fs = require('fs');
+var authenticate = require("./authenticate.js");
 var bodyParser = require('body-parser');
 var app = express();
 var port = 3700;
@@ -14,6 +15,7 @@ var tiltMin = 0;
 var tiltMax = 180;
 var zoomMin = 0;
 var zoomMax = 15;
+var lastControlledBy = "";
 
 app.set('views', __dirname + '/tpl');
 app.set('view engine', "jade");
@@ -22,16 +24,28 @@ app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({
 	extended: true
 }));
+app.use("/:guid", function(req,res,next){
+	res.locals.session = req.session;
+	if(req.params.guid != 'favicon.ico'){
+		var name = authenticate.authorized(req.params.guid);
+		app.locals.guid = req.params.guid;
+		console.log('guid:'+req.params.guid+",name="+name);
+		if(name === ""){
+			res.status(401).send({ error: "Unauthorized" });
+			return;
+		}
+	}
+	next();
+});
 var io = require('socket.io').listen(app.listen(port));
 
 io.sockets.on('connection', function (socket) {
-    console.log("connection!");
-    socket.on('send', function (data) {
-//        console.log("send!");
-        io.sockets.emit('message', data);
-    });
-    socket.on('charCode', function(data) {
-    	processCharCode(data);
+//    console.log("connection!");
+    socket.on('control', function(data) {
+//    	console.log("data="+data);
+    	var json = JSON.parse(data);
+    	lastControlledBy = authenticate.authorized(json.control.guid);
+    	processCharCode(json.control.charCode);
     });
 });
 
@@ -44,10 +58,10 @@ function processCharCode(charCode){
 		case 65: // a
 			pan -= 1;
 			break;
-		case 66: // s
+		case 83: // s
 			tilt -= 1;
 			break;
-		case 67: // d
+		case 68: // d
 			pan += 1;
 			break;
 		case 37: // arrow left
@@ -90,20 +104,16 @@ function processCharCode(charCode){
 	console.log("code="+charCode+", pan="+pan+", tilt="+tilt+", zoom="+zoom);
 }
 
-app.get("/", function(req, res){
+app.get("/:guid", function(req, res){
     res.render("page");
 });
 
 app.post('/', function(req, res){
-//    console.log("Received post");
-    
+//  console.log("Received post");  
 	console.log(req.body.message);
 	
 	var obj = JSON.parse(req.body.message);
 	
-//	pan=parseInt(obj.message.settings.pan);
-//	tilt=parseInt(obj.message.settings.tilt);
-//	zoom=parseInt(obj.message.settings.zoom);
 	panMin = parseInt(obj.message.ranges.panMin);
 	panMax = parseInt(obj.message.ranges.panMax);
 	tiltMin = parseInt(obj.message.ranges.tiltMin);
@@ -117,6 +127,7 @@ app.post('/', function(req, res){
     res.end(JSON.stringify(
     	{response: {
 	    	status: "OK", 
+	    	name : lastControlledBy,
 	    	settings: 
 	    		{
 	    			pan: "" + pan, 

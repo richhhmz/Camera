@@ -2,7 +2,7 @@ window.onload = function() {
  
     var messages = [];
     var socket = io.connect(Document.URL);
-    var field = document.getElementById("field");
+    document.getElementById("key").focus();
 	
     socket.on('message', function (data) {
 //		alert("image");
@@ -14,12 +14,17 @@ window.onload = function() {
 	        var tilt = document.getElementById("tilt");
 	        var zoom = document.getElementById("zoom");
 	        var key = document.getElementById("key");
+	        var lastControlledBy = document.getElementById("lastControlledBy");
+	        
 		    image.src = "data:image/jpeg;base64," + data.message.image;
 		    timestamp.innerHTML = data.message.timestamp;
 		    pan.innerHTML = data.message.settings.pan;
 		    tilt.innerHTML = data.message.settings.tilt;
-		    zoom.innerHTML = data.message.settings.zoom;
-		    key.value = "";
+		    zoom.innerHTML = data.message.zoomTable[parseInt(data.message.settings.zoom)];
+		    lastControlledBy.innerHTML = data.message.name;
+		    if(data.message.clear === "true"){
+			    key.value = "";
+		    }
         } else {
             console.log("There is a problem:", data);
         }
@@ -28,10 +33,10 @@ window.onload = function() {
     key.onkeydown = function(event) {
     	var charCode = (event.which) ? event.which : event.keyCode
     	this.value = "";
-    	if (charCode == 87) this.value=("left 1 degree"); // w
-    	if (charCode == 65) this.value=("up 1 degree"); // a
-    	if (charCode == 66) this.value=("right 1 degree"); // s
-    	if (charCode == 67) this.value=("down 1 degree"); // d
+    	if (charCode == 87) this.value=("up 1 degree"); // w
+    	if (charCode == 65) this.value=("left 1 degree"); // a
+    	if (charCode == 83) this.value=("down 1 degree"); // s
+    	if (charCode == 68) this.value=("right 1 degree"); // d
     	if (charCode == 37) this.value=("left 5 degree"); // left
     	if (charCode == 38) this.value=("up 5 degrees"); // up
     	if (charCode == 39) this.value=("right 5 degrees"); // right
@@ -42,13 +47,10 @@ window.onload = function() {
     	if (charCode == 76) this.value=("right 30 degrees"); // l
     	if (charCode == 33) this.value=("zoom in"); // page up
     	if (charCode == 34) this.value=("zoom out"); // page down
-    	socket.emit('charCode', charCode.toString());
+        var guid = document.getElementById("guid");
+    	var control = JSON.stringify({"control" : {"charCode" : charCode, "guid" : guid.value }});
+    	socket.emit('control', control);
     	return false;
-    };
-
-    sendButton.onclick = function() {
-        var text = field.value;
-        socket.emit('send', { message: text });
     };
  
     

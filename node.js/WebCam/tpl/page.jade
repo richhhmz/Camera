@@ -14,7 +14,19 @@ html
 			span#tilt 
 			| &nbsp;Zoom:&nbsp; 
 			span#zoom
+			| &nbsp;(
+			span#lastControlledBy
+			| )
 		#control
 			| &nbsp;Control:&nbsp;
 			input#key(style='width:120px;')
+		input#guid(type="hidden" name="guid" value="#{guid}")
+		div
+			| <br/><b>Instructions:</b><br/>
+			| &nbsp;&nbsp;&nbsp;&nbsp;Make sure the Control textbox has focus.<br/>
+			| &nbsp;&nbsp;&nbsp;&nbsp;up, left, down, right arrows - pan/tilt 5 degrees<br/>
+			| &nbsp;&nbsp;&nbsp;&nbsp;w, a, s, d keys - up, left, down, right 1 degree<br/>
+			| &nbsp;&nbsp;&nbsp;&nbsp;i, j, k, l keys - up, left, down, righ 30 degrees<br/>
+		
+		
 			
