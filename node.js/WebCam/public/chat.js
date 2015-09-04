@@ -14,15 +14,17 @@ window.onload = function() {
 	        var tilt = document.getElementById("tilt");
 	        var zoom = document.getElementById("zoom");
 	        var key = document.getElementById("key");
-	        var lastControlledBy = document.getElementById("lastControlledBy");
+	        var lastChanged = document.getElementById("lastChanged");
+	        var lastChangedBy = document.getElementById("lastChangedBy");
 	        
 		    image.src = "data:image/jpeg;base64," + data.message.image;
 		    timestamp.innerHTML = data.message.timestamp;
 		    pan.innerHTML = data.message.settings.pan;
 		    tilt.innerHTML = data.message.settings.tilt;
 		    zoom.innerHTML = data.message.zoomTable[parseInt(data.message.settings.zoom)];
-		    lastControlledBy.innerHTML = data.message.name;
-		    if(data.message.clear === "true"){
+		    lastChanged.innerHTML = data.message.lastChanged;
+		    lastChangedBy.innerHTML = data.message.lastChangedBy;
+		    if(data.message.controls.clear === "true"){
 			    key.value = "";
 		    }
         } else {

@@ -9,7 +9,7 @@ var imageData;
 var pan = 90;
 var tilt = 90;
 var zoom = 0;
-var lastControlledBy = "";
+var lastChangedBy = "";
 
 app.set('views', __dirname + '/tpl');
 app.set('view engine', "jade");
@@ -38,7 +38,7 @@ io.sockets.on('connection', function (socket) {
     socket.on('control', function(data) {
 //    	console.log("data="+data);
     	var json = JSON.parse(data);
-    	lastControlledBy = authenticate.authorized(json.control.guid);
+    	lastChangedBy = authenticate.authorized(json.control.guid);
     	processCharCode(json.control.charCode);
     });
 });
@@ -102,7 +102,8 @@ app.post('/', function(req, res){
 	
 	var input = JSON.parse(req.body.message);
 	
-	if(input.message.fix === "true"){
+	if(input.message.controls.fix === "true"){
+		// Fix if outside of range limits
 		pan = input.message.settings.pan;
 		tilt = input.message.settings.tilt;
 		zoom = input.message.settings.zoom;
@@ -114,7 +115,7 @@ app.post('/', function(req, res){
     res.end(JSON.stringify(
     	{response: {
 	    	status: "OK", 
-	    	name : lastControlledBy,
+	    	lastChangedBy : lastChangedBy,
 	    	settings: 
 	    		{
 	    			pan: "" + pan, 

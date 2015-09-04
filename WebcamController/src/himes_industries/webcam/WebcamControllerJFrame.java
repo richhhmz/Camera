@@ -61,7 +61,7 @@ public class WebcamControllerJFrame extends javax.swing.JFrame {
         PanLabel4 = new javax.swing.JLabel();
         ZoomMinTextField = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        NameTextField = new javax.swing.JTextField();
+        LastChangedByTextField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -134,9 +134,9 @@ public class WebcamControllerJFrame extends javax.swing.JFrame {
         ZoomMinTextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         ZoomMinTextField.setText("0");
 
-        jLabel4.setText("Last adjusted by:");
+        jLabel4.setText("Last changed by:");
 
-        NameTextField.setText("none");
+        LastChangedByTextField.setText("nobody");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -208,7 +208,7 @@ public class WebcamControllerJFrame extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(NameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(LastChangedByTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(172, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -252,7 +252,7 @@ public class WebcamControllerJFrame extends javax.swing.JFrame {
                 .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(NameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(LastChangedByTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(LblPicture)
                 .addContainerGap(88, Short.MAX_VALUE))
@@ -367,12 +367,12 @@ public class WebcamControllerJFrame extends javax.swing.JFrame {
         return ZoomMaxTextField.getText();
     }
     
-    public String getName(){
-        return NameTextField.getText();
+    public String getLastChangedBy(){
+        return LastChangedByTextField.getText();
     }
     
-    public void setName(String name){
-        NameTextField.setText(name);
+    public void setLastChangedBy(String name){
+        LastChangedByTextField.setText(name);
     }
     
     public void setPanTiltZoom(){
@@ -399,8 +399,8 @@ public class WebcamControllerJFrame extends javax.swing.JFrame {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField ArduinoPortTextField;
+    private javax.swing.JTextField LastChangedByTextField;
     private javax.swing.JLabel LblPicture;
-    private javax.swing.JTextField NameTextField;
     private javax.swing.JLabel PanLabel;
     private javax.swing.JLabel PanLabel1;
     private javax.swing.JLabel PanLabel2;

@@ -23,6 +23,7 @@ public class Post {
     
     private static boolean clear = false;
     private static boolean fix = false;
+    private static String lastChanged = "";
 
     private WebcamControllerJFrame frame;
     private byte[] buffer;
@@ -48,14 +49,19 @@ public class Post {
                 .object()
                     .key("message")
                     .object()
-                        .key("name")
-                        .value(frame.getName())
                         .key("timestamp")
                         .value(new java.util.Date().toString())
-                        .key("clear")
-                        .value(clear?"true":"false")
-                        .key("fix")
-                        .value(fix?"true":"false")
+                        .key("lastChanged")
+                        .value(lastChanged)
+                        .key("lastChangedBy")
+                        .value(frame.getLastChangedBy())
+                        .key("controls")
+                        .object()
+                            .key("clear")
+                            .value(clear?"true":"false")
+                            .key("fix")
+                            .value(fix?"true":"false")
+                        .endObject()
                         .key("settings")
                         .object()
                             .key("pan")
@@ -107,11 +113,11 @@ public class Post {
 
                 JSONObject jsonObject = new JSONObject(new String(bytes));
                 String status = jsonObject.getJSONObject("response").getString("status");
-                String name = jsonObject.getJSONObject("response").getString("name");
+                String lastChangedBy = jsonObject.getJSONObject("response").getString("lastChangedBy");
 //                System.out.println(String.format("status=%s, name=%s", status, name));
                 JSONObject settings = jsonObject.getJSONObject("response").getJSONObject("settings");
                 verifyChanges(settings);
-                frame.setName(name);
+                frame.setLastChangedBy(lastChangedBy);
 //                System.out.println(String.format("settings: pan=%s, tilt=%s, zoom=%s",
 //                        settings.getString("pan"), settings.getString("tilt"), settings.getString("zoom")));
                 
@@ -138,6 +144,7 @@ public class Post {
         else{
 //            System.out.println(String.format("changed from %d.%d.%d to %d.%d.%d",
 //                    framePan, frameTilt, frameZoom, pan, tilt, zoom));
+            lastChanged = new java.util.Date().toString();
             changed = true;
         }
 

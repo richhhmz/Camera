@@ -107,7 +107,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="NameTextField" min="-2" max="-2" attributes="0"/>
+                      <Component id="LastChangedByTextField" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace pref="172" max="32767" attributes="0"/>
@@ -160,7 +160,7 @@
               <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="NameTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="LastChangedByTextField" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="LblPicture" min="-2" max="-2" attributes="0"/>
@@ -313,12 +313,12 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel4">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Last adjusted by:"/>
+        <Property name="text" type="java.lang.String" value="Last changed by:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="NameTextField">
+    <Component class="javax.swing.JTextField" name="LastChangedByTextField">
       <Properties>
-        <Property name="text" type="java.lang.String" value="none"/>
+        <Property name="text" type="java.lang.String" value="nobody"/>
       </Properties>
     </Component>
   </SubComponents>
