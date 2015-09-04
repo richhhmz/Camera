@@ -22,6 +22,7 @@ import org.json.JSONStringer;
 public class Post {
     
     private static boolean clear = false;
+    private static boolean fix = false;
 
     private WebcamControllerJFrame frame;
     private byte[] buffer;
@@ -53,6 +54,8 @@ public class Post {
                         .value(new java.util.Date().toString())
                         .key("clear")
                         .value(clear?"true":"false")
+                        .key("fix")
+                        .value(fix?"true":"false")
                         .key("settings")
                         .object()
                             .key("pan")
@@ -61,21 +64,6 @@ public class Post {
                             .value(frame.getTilt())
                             .key("zoom")
                             .value(frame.getZoom())
-                        .endObject()
-                        .key("ranges")
-                        .object()
-                            .key("panMin")
-                            .value(frame.getPanMin())
-                            .key("panMax")
-                            .value(frame.getPanMax())
-                            .key("tiltMin")
-                            .value(frame.getTiltMin())
-                            .key("tiltMax")
-                            .value(frame.getTiltMax())
-                            .key("zoomMin")
-                            .value(frame.getZoomMin())
-                            .key("zoomMax")
-                            .value(frame.getZoomMax())
                         .endObject()
                         .key("zoomTable")
                         .array()
@@ -115,33 +103,70 @@ public class Post {
             InputStream instream = responseData.getContent();
             try {
                 byte[] bytes = IOUtils.toByteArray(instream);
-                System.out.println(String.format("response=%s", new String(bytes)));
+//                System.out.println(String.format("response=%s", new String(bytes)));
 
                 JSONObject jsonObject = new JSONObject(new String(bytes));
                 String status = jsonObject.getJSONObject("response").getString("status");
                 String name = jsonObject.getJSONObject("response").getString("name");
-                System.out.println(String.format("status=%s, name=%s", status, name));
+//                System.out.println(String.format("status=%s, name=%s", status, name));
                 JSONObject settings = jsonObject.getJSONObject("response").getJSONObject("settings");
-                System.out.println(String.format("settings: pan=%s, tilt=%s, zoom=%s",
-                        settings.getString("pan"), settings.getString("tilt"), settings.getString("zoom")));
-                
-                if(!frame.getPan().equals(settings.getString("pan")) ||
-                        !frame.getTilt().equals(settings.getString("tilt")) ||
-                        !frame.getZoom().equals(settings.getString("zoom"))){
-                    clear = true;
-                }
-                else{
-                    clear = false;
-                }
-                
-                frame.setPan(settings.getString("pan"));
-                frame.setTilt(settings.getString("tilt"));
-                frame.setZoom(settings.getString("zoom"));
-                frame.setPanTiltZoom();
+                verifyChanges(settings);
                 frame.setName(name);
+//                System.out.println(String.format("settings: pan=%s, tilt=%s, zoom=%s",
+//                        settings.getString("pan"), settings.getString("tilt"), settings.getString("zoom")));
+                
             } finally {
                 instream.close();
             }
         }
+    }
+    
+    private void verifyChanges(JSONObject settings){
+
+        boolean changed;
+        
+        int pan = Integer.parseInt(settings.getString("pan"));
+        int tilt = Integer.parseInt(settings.getString("tilt"));
+        int zoom = Integer.parseInt(settings.getString("zoom"));
+        int framePan = Integer.parseInt(frame.getPan());
+        int frameTilt = Integer.parseInt(frame.getTilt());
+        int frameZoom = Integer.parseInt(frame.getZoom());
+
+        if(pan == framePan && tilt == frameTilt && zoom == frameZoom){
+            changed = false;
+        }
+        else{
+//            System.out.println(String.format("changed from %d.%d.%d to %d.%d.%d",
+//                    framePan, frameTilt, frameZoom, pan, tilt, zoom));
+            changed = true;
+        }
+
+        int panMin = Integer.parseInt(frame.getPanMin());
+        int panMax = Integer.parseInt(frame.getPanMax());
+        int tiltMin = Integer.parseInt(frame.getTiltMin());
+        int tiltMax = Integer.parseInt(frame.getTiltMax());
+        int zoomMin = Integer.parseInt(frame.getZoomMin());
+        int zoomMax = Integer.parseInt(frame.getZoomMax());
+        
+        if(pan < panMin || pan > panMax || tilt < tiltMin || tilt > tiltMax || zoom < zoomMin || zoom > zoomMax){
+            fix = true;
+        }
+        else{
+            fix = false;
+        }
+        
+        if(pan < panMin) pan = panMin;
+        if(pan > panMax) pan = panMax;
+        if(tilt < tiltMin) tilt = tiltMin;
+        if(tilt > tiltMax) tilt = tiltMax;
+        if(zoom < zoomMin) zoom = zoomMin;
+        if(zoom > zoomMax) zoom = zoomMax;
+
+        frame.setPan("" + pan);
+        frame.setTilt("" + tilt);
+        frame.setZoom("" + zoom);
+        frame.setPanTiltZoom();
+        
+        clear = changed;
     }
 }

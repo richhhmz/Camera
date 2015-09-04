@@ -9,12 +9,6 @@ var imageData;
 var pan = 90;
 var tilt = 90;
 var zoom = 0;
-var panMin = 0;
-var panMax = 180;
-var tiltMin = 0;
-var tiltMax = 180;
-var zoomMin = 0;
-var zoomMax = 15;
 var lastControlledBy = "";
 
 app.set('views', __dirname + '/tpl');
@@ -50,7 +44,7 @@ io.sockets.on('connection', function (socket) {
 });
 
 function processCharCode(charCode){
-	console.log("enter processCharCode, char="+charCode);
+//	console.log("enter processCharCode, char="+charCode);
 	switch(parseInt(charCode)){
 		case 87: // w
 			tilt += 1;
@@ -95,13 +89,7 @@ function processCharCode(charCode){
 			zoom -= 1;
 			break;
 	}
-	if(pan < panMin) pan = panMin;
-	if(pan > panMax) pan = panMax;
-	if(tilt < tiltMin) tilt = tiltMin;
-	if(tilt > tiltMax) tilt = tiltMax;
-	if(zoom < zoomMin) zoom = zoomMin;
-	if(zoom > zoomMax) zoom = zoomMax;
-	console.log("code="+charCode+", pan="+pan+", tilt="+tilt+", zoom="+zoom);
+//	console.log("code="+charCode+", pan="+pan+", tilt="+tilt+", zoom="+zoom);
 }
 
 app.get("/:guid", function(req, res){
@@ -110,16 +98,15 @@ app.get("/:guid", function(req, res){
 
 app.post('/', function(req, res){
 //  console.log("Received post");  
-	console.log(req.body.message);
+//	console.log(req.body.message);
 	
-	var obj = JSON.parse(req.body.message);
+	var input = JSON.parse(req.body.message);
 	
-	panMin = parseInt(obj.message.ranges.panMin);
-	panMax = parseInt(obj.message.ranges.panMax);
-	tiltMin = parseInt(obj.message.ranges.tiltMin);
-	tiltMax = parseInt(obj.message.ranges.tiltMax);
-	zoomMin = parseInt(obj.message.ranges.zoomMin);
-	zoomMax = parseInt(obj.message.ranges.zoomMax);
+	if(input.message.fix === "true"){
+		pan = input.message.settings.pan;
+		tilt = input.message.settings.tilt;
+		zoom = input.message.settings.zoom;
+	}
 	
     io.sockets.emit("message", JSON.parse(req.body.message));
     

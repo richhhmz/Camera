@@ -39,7 +39,6 @@ public class AndroidComm {
         InputStreamReader reader = null;
         String msg = "failed";
         try {
-            System.out.println("Begin");
             Runtime runtime = Runtime.getRuntime();
 
             if(System.getProperty("os.name").toLowerCase().startsWith("windows")){
