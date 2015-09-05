@@ -14,7 +14,6 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONStringer;
 
@@ -96,7 +95,7 @@ public class Post {
                 .endObject()
             .toString();
         json = new JSONObject(message);
-        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        List<NameValuePair> params = new ArrayList<>();
         params.add(new BasicNameValuePair("message", message));
         
         //Execute and get the response.
@@ -117,7 +116,9 @@ public class Post {
 //                System.out.println(String.format("status=%s, name=%s", status, name));
                 JSONObject settings = jsonObject.getJSONObject("response").getJSONObject("settings");
                 verifyChanges(settings);
-                frame.setLastChangedBy(lastChangedBy);
+                if(! lastChangedBy.equals("")){
+                    frame.setLastChangedBy(lastChangedBy);
+                }
 //                System.out.println(String.format("settings: pan=%s, tilt=%s, zoom=%s",
 //                        settings.getString("pan"), settings.getString("tilt"), settings.getString("zoom")));
                 

@@ -14,7 +14,6 @@ import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.net.Socket;
-import java.util.Scanner;
 import javax.swing.JFileChooser;
 import himes_industries.webcam.WebcamControllerJFrame;
 

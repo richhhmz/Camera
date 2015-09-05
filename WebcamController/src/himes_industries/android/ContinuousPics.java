@@ -22,6 +22,7 @@ public class ContinuousPics implements Runnable {
         this.frame =  frame;
     }
     
+    @Override
     public void run(){
         
         while(AndroidComm.running){

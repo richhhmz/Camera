@@ -8,6 +8,9 @@ window.onload = function() {
 //		alert("image");
         if(data.message) {
             //alert("image message);
+        	var startStop = document.getElementById("startStop");
+        	if(startStop.value == "Start") return;
+        	
 	        var image = document.getElementById("image");
 	        var timestamp = document.getElementById("timestamp");
 	        var pan = document.getElementById("pan");
@@ -21,7 +24,8 @@ window.onload = function() {
 		    timestamp.innerHTML = data.message.timestamp;
 		    pan.innerHTML = data.message.settings.pan;
 		    tilt.innerHTML = data.message.settings.tilt;
-		    zoom.innerHTML = data.message.zoomTable[parseInt(data.message.settings.zoom)];
+//		    zoom.innerHTML = data.message.zoomTable[parseInt(data.message.settings.zoom)];
+		    zoom.innerHTML = data.message.settings.zoom;
 		    lastChanged.innerHTML = data.message.lastChanged;
 		    lastChangedBy.innerHTML = data.message.lastChangedBy;
 		    if(data.message.controls.clear === "true"){
@@ -54,6 +58,5 @@ window.onload = function() {
     	socket.emit('control', control);
     	return false;
     };
- 
-    
+     
 }

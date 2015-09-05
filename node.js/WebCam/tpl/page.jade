@@ -4,6 +4,16 @@ html
 		title= "Video stream"
 		script(src='/chat.js')
 		script(src='/socket.io/socket.io.js')
+		script.
+			var startStop = function() {
+				var btn = document.getElementById("startStop");
+				if(btn.value == "Stop"){
+					btn.value = "Start";
+				}
+				else{
+					btn.value = "Stop";
+				}
+			}
 	body
 		#content(style='width: 850px; height: 480px; margin: 0 0 20px 0; border: solid 1px #999;')
 			img#image(style='width: 850px; height: 450px;')
@@ -19,6 +29,8 @@ html
 		#control
 			| &nbsp;Control:&nbsp;
 			input#key(style='width:120px;')
+			| &nbsp;&nbsp;
+			input#startStop(type="button" value="Stop" onclick="startStop();")
 			| <br/><br/>
 		#changed
 			| Settings were last changed 
@@ -34,7 +46,7 @@ html
 			| &nbsp;&nbsp;&nbsp;&nbsp;Use i, j, k, l keys for 30 degrees up, left, down, right pan/tilt movement.<br/>
 			| &nbsp;&nbsp;&nbsp;&nbsp;Use page-up/page-down keys to zoom one step in/out.<br/><br/>
 			| Note that the min/max pan/tilt range may be other than 0 to 180 degrees due to mechanical restrictions.<br/>
-			| If the image is blank, the controller is down.  Notify your system administrator immediately!<br/>
+			| If the image is blank, the controller is down. Try again later.<br/>
 		
 		
 			
