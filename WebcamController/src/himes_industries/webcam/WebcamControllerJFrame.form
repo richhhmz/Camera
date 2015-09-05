@@ -245,7 +245,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="WebServerPortTextField">
       <Properties>
-        <Property name="text" type="java.lang.String" value="http://52"/>
+        <Property name="text" type="java.lang.String" value="http://52.10.79.98"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="PanLabel2">

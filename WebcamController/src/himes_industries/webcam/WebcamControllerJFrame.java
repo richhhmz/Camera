@@ -104,7 +104,7 @@ public class WebcamControllerJFrame extends javax.swing.JFrame {
 
         ServerPortLabel.setText("Web Server");
 
-        WebServerPortTextField.setText("http://52");
+        WebServerPortTextField.setText("http://52.10.79.98");
 
         PanLabel2.setText("Pan Min");
 
