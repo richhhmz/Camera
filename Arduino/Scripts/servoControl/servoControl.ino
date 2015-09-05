@@ -15,8 +15,6 @@ void loop() {
   if (Serial.available() > 0) {
     pos = Serial.read();
     
-    //Also, received numbers 0 through 127, 128 through 255 
-    //are converted to 0 through 180.
     if (pos > 127)
       servoTilt.write(round((pos-1)*CONVERSION)-180);
     else

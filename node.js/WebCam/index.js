@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use("/:guid", function(req,res,next){
 	res.locals.session = req.session;
-	if(req.params.guid != 'favicon.ico'){
+	if(req.params.guid !== 'favicon.ico'){
 		var name = authenticate.authorized(req.params.guid);
 		app.locals.guid = req.params.guid;
 		console.log('guid:'+req.params.guid+",name="+name);
