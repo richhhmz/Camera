@@ -43,7 +43,7 @@ window.onload = function() {
     	if (charCode == 65) this.value=("left 1 degree"); // a
     	if (charCode == 83) this.value=("down 1 degree"); // s
     	if (charCode == 68) this.value=("right 1 degree"); // d
-    	if (charCode == 37) this.value=("left 5 degree"); // left
+    	if (charCode == 37) this.value=("left 5 degrees"); // left
     	if (charCode == 38) this.value=("up 5 degrees"); // up
     	if (charCode == 39) this.value=("right 5 degrees"); // right
     	if (charCode == 40) this.value=("down 5 degrees"); // down
