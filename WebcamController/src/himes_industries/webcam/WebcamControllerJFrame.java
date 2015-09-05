@@ -98,11 +98,13 @@ public class WebcamControllerJFrame extends javax.swing.JFrame {
         ZoomTextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         ZoomTextField.setText("0");
 
+        ArduinoPortTextField.setText("COM3");
+
         PortLabel.setText("Arduino Port");
 
         ServerPortLabel.setText("Web Server");
 
-        WebServerPortTextField.setText("http://localhost:3700");
+        WebServerPortTextField.setText("http://52");
 
         PanLabel2.setText("Pan Min");
 
@@ -117,12 +119,12 @@ public class WebcamControllerJFrame extends javax.swing.JFrame {
         jLabel2.setText("Max");
 
         TiltMaxTextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        TiltMaxTextField.setText("180");
+        TiltMaxTextField.setText("120");
 
         PanLabel3.setText("Tilt Min");
 
         TiltMinTextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        TiltMinTextField.setText("0");
+        TiltMinTextField.setText("70");
 
         jLabel3.setText("Max");
 

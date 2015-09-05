@@ -3,7 +3,7 @@ var fs = require('fs');
 var authenticate = require("./authenticate.js");
 var bodyParser = require('body-parser');
 var app = express();
-var port = 3700;
+var port = 80;
 var imageData;
 
 var pan = 90;
@@ -50,22 +50,22 @@ function processCharCode(charCode){
 			tilt += 1;
 			break;
 		case 65: // a
-			pan -= 1;
+			pan += 1;
 			break;
 		case 83: // s
 			tilt -= 1;
 			break;
 		case 68: // d
-			pan += 1;
+			pan -= 1;
 			break;
 		case 37: // arrow left
-			pan -= 5;
+			pan += 5;
 			break;
 		case 38: // arrow up
 			tilt += 5;
 			break;
 		case 39: // arrow right
-			pan += 5;
+			pan -= 5;
 			break;
 		case 40: // arrow down
 			tilt -= 5;
@@ -74,13 +74,13 @@ function processCharCode(charCode){
 			tilt += 30;
 			break;
 		case 74: // j
-			pan -= 30;
+			pan += 30;
 			break;
 		case 75: // k
 			tilt -= 30;
 			break;
 		case 76: // l
-			pan += 30;
+			pan -= 30;
 			break;
 		case 33: // page up
 			zoom += 1;
