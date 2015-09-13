@@ -7,6 +7,7 @@ package himes_industries.webcam;
 
 import himes_industries.android.AndroidComm;
 import himes_industries.arduino.ArduinoComm;
+import himes_industries.util.Global;
 
 /**
  *
@@ -396,7 +397,7 @@ public class WebcamControllerJFrame extends javax.swing.JFrame {
             AndroidComm.sendMessage(String.format("zoom %s", ZoomTextField.getText()));
         }
         catch(Exception ex){
-            System.out.println(ex.getMessage());
+            Global.handleException(ex);
         }
     }
     

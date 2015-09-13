@@ -5,11 +5,10 @@ import gnu.io.CommPortIdentifier;
 import gnu.io.SerialPort;
 import gnu.io.SerialPortEvent;
 import gnu.io.SerialPortEventListener;
+import himes_industries.util.Global;
 
 import java.io.InputStream;
 import java.io.OutputStream;
-
-import himes_industries.arduino.ArduinoGlobal;
 
 public class ArduinoComm {
 
@@ -59,7 +58,7 @@ public class ArduinoComm {
         try {
             portOut.write(b);
         } catch (Exception ex) {
-            ArduinoGlobal.handleException(ex);
+            Global.handleException(ex);
         }
     }
 
@@ -141,7 +140,7 @@ public class ArduinoComm {
                 String message = new String(buffer, 0, len);
                 ArduinoTrace.received(message);
             } catch (Exception e) {
-                ArduinoGlobal.handleException(e);
+                Global.handleException(e);
             }
         }
 

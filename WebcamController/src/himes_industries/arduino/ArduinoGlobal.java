@@ -21,9 +21,4 @@ public class ArduinoGlobal {
 	public static void handleError(String message){
 		System.out.printf("Error %s\n", message);
 	}
-	
-	public static void handleException(Exception ex){
-		System.out.printf("Caught exception: %s\n", ex.toString());
-		ex.printStackTrace(new PrintStream(System.out));
-	}
 }

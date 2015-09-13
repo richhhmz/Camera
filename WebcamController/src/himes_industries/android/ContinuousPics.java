@@ -7,6 +7,7 @@ package himes_industries.android;
 
 import himes_industries.util.ResizeImage;
 import himes_industries.util.Base64Enc;
+import himes_industries.util.Global;
 import himes_industries.util.Post;
 import himes_industries.webcam.WebcamControllerJFrame;
 import javax.swing.ImageIcon;
@@ -34,7 +35,7 @@ public class ContinuousPics implements Runnable {
                 new Post(frame, Base64Enc.encode(ResizeImage.scale(AndroidComm.getBuffer(), 900, 450))).run();
             }
             catch (Exception e) {
-                System.out.println(e + ":(");
+                Global.handleException(e);
             }
             
         }

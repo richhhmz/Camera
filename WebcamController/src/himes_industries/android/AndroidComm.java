@@ -6,6 +6,7 @@
 package himes_industries.android;
 
 import himes_industries.util.Base64Enc;
+import himes_industries.util.Global;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
@@ -71,6 +72,7 @@ public class AndroidComm {
             }
         } 
         catch (Exception e) {
+            Global.handleException(e);
             e.printStackTrace();
             System.err.println();
         }
@@ -103,8 +105,7 @@ public class AndroidComm {
                 break;
             }
             catch(Exception ex){
-                // Note that ex.getMessage() returns null.
-                ex.printStackTrace();
+                Global.handleException(ex);
                 return;
             }
         }
@@ -137,7 +138,7 @@ public class AndroidComm {
             }
 
             catch(Exception ex) {
-                System.out.println(ex.getMessage());
+                Global.handleException(ex);
             }
         }
     }
@@ -156,7 +157,7 @@ public class AndroidComm {
             }
         }
         catch(Exception ex){
-            System.out.println(ex.getMessage());
+            Global.handleException(ex);
         }
     }
     

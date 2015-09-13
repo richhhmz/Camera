@@ -2,6 +2,7 @@ window.onload = function() {
  
     var messages = [];
     var socket = io.connect(Document.URL);
+    var waiting = false;
     document.getElementById("key").focus();
 	
     socket.on('message', function (data) {
@@ -30,6 +31,7 @@ window.onload = function() {
 		    lastChangedBy.innerHTML = data.message.lastChangedBy;
 		    if(data.message.controls.clear === "true"){
 			    key.value = "";
+		        waiting=false;
 		    }
         } else {
             console.log("There is a problem:", data);
@@ -38,7 +40,6 @@ window.onload = function() {
     
     key.onkeydown = function(event) {
     	var charCode = (event.which) ? event.which : event.keyCode
-    	this.value = "";
     	if (charCode == 87) this.value=("up 1 degree"); // w
     	if (charCode == 65) this.value=("left 1 degree"); // a
     	if (charCode == 83) this.value=("down 1 degree"); // s
@@ -55,7 +56,8 @@ window.onload = function() {
     	if (charCode == 34) this.value=("zoom out"); // page down
         var guid = document.getElementById("guid");
     	var control = JSON.stringify({"control" : {"charCode" : charCode, "guid" : guid.value }});
-    	socket.emit('control', control);
+    	if (!waiting) socket.emit('control', control);
+    	waiting=true;
     	return false;
     };
      
